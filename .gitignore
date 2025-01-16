@@ -2,3 +2,4 @@
 *.temp
 clipse/tmp_files/
 clipboard_history.json
+hyprpaper.conf
