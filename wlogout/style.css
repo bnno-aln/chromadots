@@ -28,10 +28,10 @@ button {
   transition: all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682);
 }
 
-button:focus {
+/* button:focus {
   background-color: @background;
   background-size: 15%;
-}
+} */
 
 button:hover {
   background-color: @accent;

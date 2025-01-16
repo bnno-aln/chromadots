@@ -17,11 +17,11 @@ It can modify the hyprland, rofi and waybar theme to use the extracted colors.
 waypaper_config_path = os.path.expanduser("~") + "/.config/waypaper/config.ini"
 
 # Themes file path
-hyprland_theme_path = os.path.expanduser("~") + "/.config/hypr/configs/appearance.conf"
+hyprland_colors_path = os.path.expanduser("~") + "/.config/hypr/colors.conf"
+hyprlock_path = os.path.expanduser("~") + "/.config/hypr/hyprlock.conf"
 rofi_theme_path = os.path.expanduser("~") + "/.config/rofi/theme.rasi"
 waybar_theme_path = os.path.expanduser("~") + "/.config/waybar/theme.css"
 clipse_theme_path = os.path.expanduser("~") + "/.config/clipse/custom_theme.json"
-hyprlock_path = os.path.expanduser("~") + "/.config/hypr/hyprlock.conf"
 theme_mode_path = os.path.expanduser("~") + "/.config/waybar/theme"
 
 # Color names from darker to lighter (5 colors by default)
@@ -156,20 +156,51 @@ def get_palette():
     return colors
 
 
-def modify_hyprland_theme(hyprland_path, new_colors):
-    with open(hyprland_path, "r") as file:
+def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
+    # Reformat the colors to {"color name": "(color value)"}
+    new_colors_rgb = dict()
+    new_colors_hex = dict()
+    for name, color in colors_rgb.items():
+        color = str(color).replace("'", "")
+        new_colors_rgb.update({f"${name}": color})
+    for name, color in colors_hex.items():
+        color = str(color).replace("'", "")
+        new_colors_hex.update({f"${name}": str(color).replace("#", "")})
+
+    # print(new_colors_rgb)
+    # print(new_colors_hex)
+
+    # return
+
+    # Reads the color.conf
+    with open(hyprland_colors_path, "r") as file:
         config = file.readlines()
 
-    color_names = list(new_colors.keys())
-    for num, line in enumerate(config, 0):
-        if "col.active_border" in line:
-            config[num] = re.sub(
-                r"rgb\((.*?)\) rgb\((.*?)\)",
-                f"rgb({str(new_colors[color_names[-1]].strip('#'))}) rgb({str(new_colors[color_names[-2]].strip('#'))})",
-                line,
-            )
+    lookup = r"(\$\w*|\$\w*-\w*|\$\w*-\w*-\w*)\s*=\s*(\w*)\((.*)\)"
 
-    with open(hyprland_path, "w") as file:
+    old_colors = dict()
+
+    # Looks for the old colors
+    for num, line in enumerate(config, 0):
+        if line == "\n":
+            continue
+        search = re.findall(lookup, line)
+        old_colors.update({f"{search[0][0]}": [search[0][1], search[0][2]]})
+
+    # Replaces the old colors with the new ones
+    for key, value in old_colors.items():
+        for num, line in enumerate(config, 0):
+            if line.startswith(key) and line.endswith(f"{value[1]})\n"):
+                if "-alpha" in line:
+                    config[num] = (
+                        f"{key} = rgba{str(new_colors_rgb[f'{str(key).replace("-alpha", "")}']).replace(')', ', 0.5)')}\n"
+                    )
+                else:
+                    config[num] = f"{key} = rgb({new_colors_hex[key]})\n"
+                print(key, value[0], value[1])
+
+    # Updates the color.conf with the new colors
+    with open(hyprland_colors_path, "w") as file:
         file.writelines(config)
         file.close()
 
@@ -289,7 +320,11 @@ def change_themes():
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="dark").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="dark").hex,
+                    palette(theme="dark").rgb,
+                )
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Waybar theme switched" "Theme changed to Dark Mode"'
@@ -301,7 +336,11 @@ def change_themes():
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="light").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="light").hex,
+                    palette(theme="light").rgb,
+                )
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Waybar theme switched" "Theme changed to Light Mode"'
@@ -330,7 +369,11 @@ def change_themes():
                         f"wal -n --backend colorthief --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
                     )
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="dark").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="dark").hex,
+                    palette(theme="dark").rgb,
+                )
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
                 os.system("swaync-client --reload-css")
@@ -361,7 +404,11 @@ def change_themes():
                         f"wal -n --backend colorthief --cols16 darken -l -i '{get_wallpaper(waypaper_config_path)}'"
                     )
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="light").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="light").hex,
+                    palette(theme="light").rgb,
+                )
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
                 os.system("swaync-client --reload-css")
@@ -409,7 +456,7 @@ def change_themes():
                     )
                 modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
                 os.system(
-                    'notify-send "Waybar theme switched" "Theme changed to Light Mode"'
+                    'notify-send "Pywal theme switched" "Theme changed to Light Mode"'
                 )
                 update_pywal_dependent("Light")
 
@@ -418,13 +465,21 @@ def change_themes():
             if theme_state["waybar"] == "light":
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="light").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="light").hex,
+                    palette(theme="light").rgb,
+                )
                 os.system("swaync-client --reload-css")
 
             elif theme_state["waybar"] == "dark":
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
-                modify_hyprland_theme(hyprland_theme_path, palette(theme="dark").hex)
+                modify_hyprland_theme(
+                    hyprland_colors_path,
+                    palette(theme="dark").hex,
+                    palette(theme="dark").rgb,
+                )
                 os.system("swaync-client --reload-css")
 
             if theme_state["pywal"] == "light":
@@ -458,10 +513,19 @@ def change_themes():
                 update_pywal_dependent("Dark")
 
 
+def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
+    if ".gif" in wallpaper:
+        os.system(
+            f"convert '{wallpaper}[0]' -resize 1920x1080 ~/.config/hypr/temp/current.png"
+        )
+    else:
+        os.system(
+            f"magick '{wallpaper}' -resize 1920x1080 ~/.config/hypr/temp/current.png"
+        )
+
+
 # ------------------- Main Program ------------------ #
 
+
 change_themes()
-# update_hyprlock(
-#     hyprlock_path, palette(theme="dark").rgb, get_wallpaper(waypaper_config_path)
-# )
-# print(palette(theme="dark").rgb)
+update_hyprlock_wallpaper(hyprlock_path, get_wallpaper(waypaper_config_path))
