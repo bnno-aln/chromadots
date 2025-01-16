@@ -1,0 +1,196 @@
+/*****----- Mode Configuration -----*****/
+configuration {
+	modi:                       "drun,run,window";
+    show-icons:                 false;
+    display-drun:               "";
+    display-run:                "";
+    display-filebrowser:        "";
+    display-window:             "";
+	drun-display-format:        "{name}";
+	window-format:              "{w} · {c} · {t}";
+}
+
+/*****----- Global Properties -----*****/
+* {
+    font:                        "JetBrains Mono Nerd Font 10";
+    selected:                    #50505030;
+    active:                      #90909030;
+    urgent:                      #70707030;
+
+    background:                       rgb(133, 32, 25);
+    background-alpha:                 rgba(133, 32, 25, 0.7);
+    accent:                           rgb(142, 133, 134);
+    text:                             rgb(204, 217, 230);
+}
+
+/*****----- Main Window -----*****/
+window {
+    /* properties for window widget */
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       600px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    /* properties for all widgets */
+    enabled:                     true;
+    border-radius:               20px;
+    cursor:                      "default";
+    background-color:            @background-alpha;
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     0px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "inputbar", "listbox" ];
+}
+
+listbox {
+    spacing:                     20px;
+    padding:                     20px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "message", "listview", "mode-switcher" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     100px 40px;
+    background-color:            transparent;
+    /* background-image:            url("~/Imagens/Wallpapers/marek-piwnicki-KyXUCIx3-A4-unsplash.jpg", width); */
+    text-color:                  @text;
+    orientation:                 horizontal;
+    children:                    [ "textbox-prompt-colon", "entry" ];
+}
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    str:                         "";
+    padding:                     12px 15px 12px 12px;
+    border-radius:               100%;
+    background-color:            @background;
+    text-color:                  inherit;
+}
+entry {
+    enabled:                     true;
+    expand:                      true;
+    padding:                     12px 16px;
+    border-radius:               100%;
+    background-color:            @background;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Search";
+    placeholder-color:           inherit;
+}
+
+/*****----- Mode Switcher -----*****/
+mode-switcher{
+    enabled:                     true;
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @text;
+}
+button {
+    padding:                     12px;
+    border-radius:               100%;
+    background-color:            @background;
+    text-color:                  inherit;
+    cursor:                      pointer;
+}
+button selected {
+    background-color:            @text;
+    text-color:                  @accent;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     1;
+    lines:                       5;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @text;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     12px;
+    border-radius:               100%;
+    background-color:            transparent;
+    text-color:                  @text;
+    cursor:                      pointer;
+}
+element normal.normal {
+    background-color:            inherit;
+    text-color:                  inherit;
+}
+element normal.urgent {
+    background-color:            @urgent;
+    text-color:                  @text;
+}
+element normal.active {
+    background-color:            @active;
+    text-color:                  @text;
+}
+element selected.normal {
+    background-color:            @accent;
+    text-color:                  @text;
+}
+element selected.urgent {
+    background-color:            @urgent;
+    text-color:                  @text;
+}
+element selected.active {
+    background-color:            @urgent;
+    text-color:                  @text;
+}
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        32px;
+    cursor:                      inherit;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+
+/*****----- Message -----*****/
+message {
+    background-color:            transparent;
+}
+textbox {
+    padding:                     12px;
+    border-radius:               100%;
+    background-color:            @background;
+    text-color:                  @text;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+error-message {
+    padding:                     15px;
+    border-radius:               0px;
+    background-color:            @background-alpha;
+    text-color:                  @text;
+}

@@ -1,0 +1,106 @@
+* {
+  background-image: none;
+  font-size: 12px;
+  font-family: "Source Code Pro";
+}
+
+@import "/home/bnno/.config/waybar/theme.css";
+
+window {
+  background-color: alpha(@background, 0.7);
+}
+
+button {
+  color: @text-color;
+  background-color: alpha(@background, 0.7);
+
+  border: 12px solid @accent;
+  border-width: 1px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10%;
+
+  box-shadow: none;
+  text-shadow: 0px 0px 2px @accent;
+
+  animation: gradient_f 20s ease-in infinite;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682);
+}
+
+button:focus {
+  background-color: @background;
+  background-size: 15%;
+}
+
+button:hover {
+  background-color: @accent;
+  background-size: 25%;
+  border-radius: 16px;
+
+  color: @text-color;
+  text-shadow: 0px 0px 2px black;
+
+  animation: gradient_f 20s ease-in infinite;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682);
+}
+
+#lock {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/lock_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}
+
+#logout {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/logout_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}
+
+#suspend {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/suspend_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}
+
+#shutdown {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/shutdown_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}
+
+#hibernate {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/hibernate_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}
+
+#reboot {
+  background-image: image(
+    url("/home/bnno/.config/wlogout/icons/reboot_white.png")
+  );
+  border-radius: 12px;
+  margin: 4px;
+  padding: 0px;
+  min-width: 64px;
+}

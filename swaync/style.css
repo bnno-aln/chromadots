@@ -1,0 +1,104 @@
+@import "../waybar/theme.css";
+* {
+  color: @text-color;
+}
+
+.blank-window {
+  background: transparent;
+}
+
+.notification-action,
+.notification-default-action {
+  border-radius: 0.75em;
+  border: 1px solid alpha(@text-color, 0.3);
+  background: alpha(@background, 0.5);
+}
+
+.control-center {
+  border-radius: 0.75em;
+  border: none;
+  background: alpha(@background, 0.5);
+}
+
+.notification {
+  box-shadow: none;
+  background: alpha(@background, 0.7);
+}
+
+.notification-content {
+  margin: 5px;
+}
+
+.control-center .notification-row {
+  background: none;
+}
+
+.notification.title {
+  color: red;
+}
+
+.widget {
+  box-shadow: none;
+}
+
+.widget-dnd {
+  font-weight: bold;
+  margin: 1em;
+}
+
+.widget-dnd > switch {
+  border: 1px solid alpha(@color11, 0.3);
+  border-radius: 0.75em;
+  background: alpha(black, 0.5);
+  padding: 1px;
+}
+
+.widget-dnd > switch slider {
+  border: 1px solid alpha(@color11, 0.3);
+  border-radius: 0.75em;
+  background: @background;
+  box-shadow: none;
+}
+
+.widget-mpris {
+  border-radius: 0.5em;
+  background: transparent;
+  box-shadow: none;
+  margin: 0px;
+}
+
+.widget-mpris-player {
+  background: @background;
+  box-shadow: 2px 2px transparent;
+}
+
+.widget-mpris-player > box > button {
+  background: alpha(black, 0.2);
+  border-radius: 0.7em;
+  margin: 8px 2px;
+  padding: 8px;
+  transition: all 0.2s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+.widget-mpris-player > box > button:hover {
+  border: 1px solid @accent;
+  margin: 7px 1px;
+  transition: all 0.05s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+.widget-buttons-grid {
+  margin: 1em;
+  background: transparent;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  box-shadow: none;
+  color: transparent;
+  font-style: normal;
+  border: transparent;
+  background: alpha(@background, 0.7);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: black;
+}

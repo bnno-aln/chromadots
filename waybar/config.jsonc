@@ -1,0 +1,328 @@
+// -*- mode: jsonc -*-
+{
+    //"layer": "top", // Waybar at top layer
+    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    // "height": 38, // Waybar height (to be removed for auto height)
+    "width": 1350, // Waybar width
+    "margin-top": -2,
+    "margin-bottom": -10,
+    "spacing": 0, // Gaps between modules (4px)
+    "reload_style_on_change": true,
+    // "GTK_DEBUG=interactive": true,
+
+    // Choose the order of the modules
+    "modules-left": [
+        // "group/theme",
+        // "custom/notification",
+        "group/theme_notification",
+        "group/workspaces_group",
+        "group/media_tray"
+    ],
+    
+    "modules-center": [
+        "hyprland/window"
+    ],
+    
+    "modules-right": [
+        "custom/updates",
+        "group/info_tray",
+        "group/time_weather"
+        // "custom/power"
+    ],
+
+    "group/theme_notification": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/notification",
+            "group/theme"
+        ]
+    },
+
+    // Modules configuration
+    "group/workspaces_group": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": true,
+            "click-to-reveal": false
+        },
+        "modules": [
+            "hyprland/workspaces",
+            "hyprland/workspaces#all"
+        ]
+    },
+
+    "group/time_weather": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/weather",
+            "group/audio",
+            "clock"
+        ]
+    },
+
+    "group/info_tray": {
+        "orientation": "horizontal",
+        "modules": [
+            "tray",
+            "network"
+        ]
+    },
+
+    "group/theme": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": true,
+            "click-to-reveal": false
+        },
+        "modules": [
+            "custom/theme_universal",
+            "custom/theme_waybar",
+            "custom/theme_pywal"
+        ]
+    },
+
+    "group/media_tray": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": false,
+            "click-to-reveal": false
+        },
+        "modules": [
+            "custom/mediaplayer",
+            "image"
+        ]
+    },
+
+    "group/audio": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": false,
+            "click-to-reveal": false
+        },
+        "modules": [
+            "custom/pipewire",
+            "pulseaudio/slider"
+        ]
+    },
+
+    "image": {
+        "path": "/tmp/waybar-mediaplayer-art",
+        "size": 24,
+        "signal": 4,
+        "on-click": "feh --auto-zoom --borderless --title 'feh-float' /tmp/waybar-mediaplayer-art"
+    },
+
+    "custom/mediaplayer": {
+        "exec": "$HOME/.config/waybar/scripts/waybar-mediaplayer/mediaplayer monitor",
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-right": "playerctl -p spotify next",
+        "on-click-middle": "playerctl -p spotify previous",
+        "min-length": 20,
+        "max-length": 30
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "hyprland/window": {
+	    "icon": false,
+	    "icon-size": 12,
+	    "max-length": 60,
+    	"separate-outputs": true,
+        "on-click": "notify-send \"Window Title\" \"$(hyprctl activewindow -j | jq -r .title)\""
+    },
+
+    "hyprland/workspaces": {
+        "active-only": true,
+	    "format": "{icon}  {windows} ",
+	    "format-icons": {
+            "1": "I",
+	        "2": "II",
+	        "3": "III",
+            "4": "IV",
+	        "5": "V",
+            "6": "VI",
+            "7": "VII",
+            "8": "VIII",
+            "9": "IX",
+            "10": "X",
+            "magic": "",
+	        // "active": "",
+	        "default": ""
+	    },
+        "show-special": true,
+        "special-visible-only": true,
+        "format-window-separator": " | ",
+        "window-rewrite-default": "󰪥",
+        "window-rewrite": {
+            "title<.*youtube.*>": "",
+            "class<firefox>": "",
+            "class<firefox> title<.*github.*>": "",
+            "class<zen-beta> title<.*github.*>": "",
+            "foot": "",
+            "code": "󰨞",
+            "spotify": "",
+            "discord": "",
+            "steam": "",
+            "PrismLauncher": "󰍳",
+            "class<zen-beta>": "󰖟",
+            "class<org.libretro.RetroArch>": "",
+            "kitty": "",
+            "ark": ""
+	    }
+    },
+
+    "hyprland/workspaces#all": {
+	    "format": "{icon}",
+	    "format-icons": {
+            "1": "I",
+	        "2": "II",
+	        "3": "III",
+            "4": "IV",
+	        "5": "V",
+            "6": "VI",
+            "7": "VII",
+            "8": "VIII",
+            "9": "IX",
+            "10": "X",
+            "magic": "",
+	        // "active": "",
+	        "default": ""
+	    }
+    },
+
+    "custom/weather": {
+        "exec": "$HOME/.config/waybar/scripts/get_weather.sh Barueri",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600
+    },
+
+    "network": {
+        // "interface": "",
+        "format": "{ifname}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "Desconectado", //An empty format will hide the module.
+        "tooltip-format": "{ifname} via {gwaddr} 󰈀",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) {icon}",
+        "tooltip-format-ethernet": "{ipaddr}  \n{ifname}/{cidr} 󰈀",
+        "tooltip-format-disconnected": "Desconectado",
+        "max-length": 50,
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "on-click": "nm-connection-editor",
+        "on-click-right": "kitty nmtui",
+        "interveal": "0.1"
+    },
+
+    "custom/updates": {
+        "format": "{}",
+        "interval": 340,
+        "exec": "$HOME/.config/waybar/scripts/updatecheck",
+        "return-type": "json",
+        "exec-if": "exit 0",
+        "signal": 8,
+        "on-click": "kitty yay"
+    },
+
+    // "idle_inhibitor": {
+    //     "format": "{icon}",
+    //     "format-icons": {
+    //         "activated": "",
+    //         "deactivated": ""
+    //     },
+    //     "tooltip": false
+    // },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8,
+        "show-passive-items": true
+    },
+
+    "clock": {
+        "format": "{:%H:%M}  ",
+        "tooltip": true,
+        "tooltip-format": "{:%d/%m/%Y %H:%M:%S}",
+        "interval": 1
+    },
+
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+
+    "custom/pipewire": {
+        "tooltip": false,
+        "max-length": 6,
+        "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
+        "on-click": "pwvucontrol",
+        "on-click-right": "coppwr",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    },
+
+    "custom/power": {
+        "format" : "⏻ ",
+	    "tooltip": false,
+	    "on-click": "wlogout -b 4"
+    },
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    "custom/theme_universal": {
+        "exec": "$HOME/.config/waybar/scripts/getTheme -u",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{icon}",
+        "format-icons": {"Dark mode": "", "Light mode": ""},
+        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tu"
+    },
+
+    "custom/theme_waybar": {
+        "exec": "$HOME/.config/waybar/scripts/getTheme -w",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{0}", // For custom icons change {0} to {icon} and uncomment format-icons
+        // "format-icons": {"Waybar light": "", "Waybar dark": ""},
+        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tw"
+    },
+
+    "custom/theme_pywal": {
+        "exec": "$HOME/.config/waybar/scripts/getTheme -p",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{0}", // For custom icons change {0} to {icon} and uncomment format-icons
+        // "format-icons": {"Dark mode": "", "Light mode": ""},
+        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tp"
+    }
+}

@@ -1,0 +1,669 @@
+@import "../../theme.css";
+
+#custom-mediaplayer.perc0-0 {
+  background-image: linear-gradient(to right, @accent 0%, @background-alt 0.1%);
+}
+#custom-mediaplayer.perc1-0 {
+  background-image: linear-gradient(to right, @accent 1%, @background-alt 1.1%);
+}
+#custom-mediaplayer.perc2-0 {
+  background-image: linear-gradient(to right, @accent 2%, @background-alt 2.1%);
+}
+#custom-mediaplayer.perc3-0 {
+  background-image: linear-gradient(to right, @accent 3%, @background-alt 3.1%);
+}
+#custom-mediaplayer.perc4-0 {
+  background-image: linear-gradient(to right, @accent 4%, @background-alt 4.1%);
+}
+#custom-mediaplayer.perc5-0 {
+  background-image: linear-gradient(to right, @accent 5%, @background-alt 5.1%);
+}
+#custom-mediaplayer.perc6-0 {
+  background-image: linear-gradient(to right, @accent 6%, @background-alt 6.1%);
+}
+#custom-mediaplayer.perc7-0 {
+  background-image: linear-gradient(to right, @accent 7%, @background-alt 7.1%);
+}
+#custom-mediaplayer.perc8-0 {
+  background-image: linear-gradient(to right, @accent 8%, @background-alt 8.1%);
+}
+#custom-mediaplayer.perc9-0 {
+  background-image: linear-gradient(to right, @accent 9%, @background-alt 9.1%);
+}
+#custom-mediaplayer.perc10-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 10%,
+    @background-alt 10.1%
+  );
+}
+#custom-mediaplayer.perc11-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 11%,
+    @background-alt 11.1%
+  );
+}
+#custom-mediaplayer.perc12-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 12%,
+    @background-alt 12.1%
+  );
+}
+#custom-mediaplayer.perc13-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 13%,
+    @background-alt 13.1%
+  );
+}
+#custom-mediaplayer.perc14-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 14%,
+    @background-alt 14.1%
+  );
+}
+#custom-mediaplayer.perc15-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 15%,
+    @background-alt 15.1%
+  );
+}
+#custom-mediaplayer.perc16-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 16%,
+    @background-alt 16.1%
+  );
+}
+#custom-mediaplayer.perc17-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 17%,
+    @background-alt 17.1%
+  );
+}
+#custom-mediaplayer.perc18-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 18%,
+    @background-alt 18.1%
+  );
+}
+#custom-mediaplayer.perc19-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 19%,
+    @background-alt 19.1%
+  );
+}
+#custom-mediaplayer.perc20-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 20%,
+    @background-alt 20.1%
+  );
+}
+#custom-mediaplayer.perc21-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 21%,
+    @background-alt 21.1%
+  );
+}
+#custom-mediaplayer.perc22-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 22%,
+    @background-alt 22.1%
+  );
+}
+#custom-mediaplayer.perc23-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 23%,
+    @background-alt 23.1%
+  );
+}
+#custom-mediaplayer.perc24-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 24%,
+    @background-alt 24.1%
+  );
+}
+#custom-mediaplayer.perc25-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 25%,
+    @background-alt 25.1%
+  );
+}
+#custom-mediaplayer.perc26-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 26%,
+    @background-alt 26.1%
+  );
+}
+#custom-mediaplayer.perc27-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 27%,
+    @background-alt 27.1%
+  );
+}
+#custom-mediaplayer.perc28-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 28%,
+    @background-alt 28.1%
+  );
+}
+#custom-mediaplayer.perc29-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 29%,
+    @background-alt 29.1%
+  );
+}
+#custom-mediaplayer.perc30-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 30%,
+    @background-alt 30.1%
+  );
+}
+#custom-mediaplayer.perc31-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 31%,
+    @background-alt 31.1%
+  );
+}
+#custom-mediaplayer.perc32-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 32%,
+    @background-alt 32.1%
+  );
+}
+#custom-mediaplayer.perc33-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 33%,
+    @background-alt 33.1%
+  );
+}
+#custom-mediaplayer.perc34-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 34%,
+    @background-alt 34.1%
+  );
+}
+#custom-mediaplayer.perc35-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 35%,
+    @background-alt 35.1%
+  );
+}
+#custom-mediaplayer.perc36-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 36%,
+    @background-alt 36.1%
+  );
+}
+#custom-mediaplayer.perc37-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 37%,
+    @background-alt 37.1%
+  );
+}
+#custom-mediaplayer.perc38-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 38%,
+    @background-alt 38.1%
+  );
+}
+#custom-mediaplayer.perc39-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 39%,
+    @background-alt 39.1%
+  );
+}
+#custom-mediaplayer.perc40-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 40%,
+    @background-alt 40.1%
+  );
+}
+#custom-mediaplayer.perc41-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 41%,
+    @background-alt 41.1%
+  );
+}
+#custom-mediaplayer.perc42-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 42%,
+    @background-alt 42.1%
+  );
+}
+#custom-mediaplayer.perc43-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 43%,
+    @background-alt 43.1%
+  );
+}
+#custom-mediaplayer.perc44-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 44%,
+    @background-alt 44.1%
+  );
+}
+#custom-mediaplayer.perc45-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 45%,
+    @background-alt 45.1%
+  );
+}
+#custom-mediaplayer.perc46-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 46%,
+    @background-alt 46.1%
+  );
+}
+#custom-mediaplayer.perc47-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 47%,
+    @background-alt 47.1%
+  );
+}
+#custom-mediaplayer.perc48-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 48%,
+    @background-alt 48.1%
+  );
+}
+#custom-mediaplayer.perc49-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 49%,
+    @background-alt 49.1%
+  );
+}
+#custom-mediaplayer.perc50-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 50%,
+    @background-alt 50.1%
+  );
+}
+#custom-mediaplayer.perc51-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 51%,
+    @background-alt 51.1%
+  );
+}
+#custom-mediaplayer.perc52-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 52%,
+    @background-alt 52.1%
+  );
+}
+#custom-mediaplayer.perc53-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 53%,
+    @background-alt 53.1%
+  );
+}
+#custom-mediaplayer.perc54-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 54%,
+    @background-alt 54.1%
+  );
+}
+#custom-mediaplayer.perc55-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 55%,
+    @background-alt 55.1%
+  );
+}
+#custom-mediaplayer.perc56-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 56%,
+    @background-alt 56.1%
+  );
+}
+#custom-mediaplayer.perc57-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 57%,
+    @background-alt 57.1%
+  );
+}
+#custom-mediaplayer.perc58-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 58%,
+    @background-alt 58.1%
+  );
+}
+#custom-mediaplayer.perc59-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 59%,
+    @background-alt 59.1%
+  );
+}
+#custom-mediaplayer.perc60-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 60%,
+    @background-alt 60.1%
+  );
+}
+#custom-mediaplayer.perc61-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 61%,
+    @background-alt 61.1%
+  );
+}
+#custom-mediaplayer.perc62-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 62%,
+    @background-alt 62.1%
+  );
+}
+#custom-mediaplayer.perc63-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 63%,
+    @background-alt 63.1%
+  );
+}
+#custom-mediaplayer.perc64-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 64%,
+    @background-alt 64.1%
+  );
+}
+#custom-mediaplayer.perc65-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 65%,
+    @background-alt 65.1%
+  );
+}
+#custom-mediaplayer.perc66-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 66%,
+    @background-alt 66.1%
+  );
+}
+#custom-mediaplayer.perc67-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 67%,
+    @background-alt 67.1%
+  );
+}
+#custom-mediaplayer.perc68-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 68%,
+    @background-alt 68.1%
+  );
+}
+#custom-mediaplayer.perc69-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 69%,
+    @background-alt 69.1%
+  );
+}
+#custom-mediaplayer.perc70-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 70%,
+    @background-alt 70.1%
+  );
+}
+#custom-mediaplayer.perc71-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 71%,
+    @background-alt 71.1%
+  );
+}
+#custom-mediaplayer.perc72-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 72%,
+    @background-alt 72.1%
+  );
+}
+#custom-mediaplayer.perc73-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 73%,
+    @background-alt 73.1%
+  );
+}
+#custom-mediaplayer.perc74-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 74%,
+    @background-alt 74.1%
+  );
+}
+#custom-mediaplayer.perc75-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 75%,
+    @background-alt 75.1%
+  );
+}
+#custom-mediaplayer.perc76-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 76%,
+    @background-alt 76.1%
+  );
+}
+#custom-mediaplayer.perc77-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 77%,
+    @background-alt 77.1%
+  );
+}
+#custom-mediaplayer.perc78-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 78%,
+    @background-alt 78.1%
+  );
+}
+#custom-mediaplayer.perc79-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 79%,
+    @background-alt 79.1%
+  );
+}
+#custom-mediaplayer.perc80-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 80%,
+    @background-alt 80.1%
+  );
+}
+#custom-mediaplayer.perc81-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 81%,
+    @background-alt 81.1%
+  );
+}
+#custom-mediaplayer.perc82-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 82%,
+    @background-alt 82.1%
+  );
+}
+#custom-mediaplayer.perc83-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 83%,
+    @background-alt 83.1%
+  );
+}
+#custom-mediaplayer.perc84-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 84%,
+    @background-alt 84.1%
+  );
+}
+#custom-mediaplayer.perc85-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 85%,
+    @background-alt 85.1%
+  );
+}
+#custom-mediaplayer.perc86-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 86%,
+    @background-alt 86.1%
+  );
+}
+#custom-mediaplayer.perc87-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 87%,
+    @background-alt 87.1%
+  );
+}
+#custom-mediaplayer.perc88-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 88%,
+    @background-alt 88.1%
+  );
+}
+#custom-mediaplayer.perc89-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 89%,
+    @background-alt 89.1%
+  );
+}
+#custom-mediaplayer.perc90-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 90%,
+    @background-alt 90.1%
+  );
+}
+#custom-mediaplayer.perc91-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 91%,
+    @background-alt 91.1%
+  );
+}
+#custom-mediaplayer.perc92-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 92%,
+    @background-alt 92.1%
+  );
+}
+#custom-mediaplayer.perc93-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 93%,
+    @background-alt 93.1%
+  );
+}
+#custom-mediaplayer.perc94-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 94%,
+    @background-alt 94.1%
+  );
+}
+#custom-mediaplayer.perc95-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 95%,
+    @background-alt 95.1%
+  );
+}
+#custom-mediaplayer.perc96-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 96%,
+    @background-alt 96.1%
+  );
+}
+#custom-mediaplayer.perc97-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 97%,
+    @background-alt 97.1%
+  );
+}
+#custom-mediaplayer.perc98-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 98%,
+    @background-alt 98.1%
+  );
+}
+#custom-mediaplayer.perc99-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 99%,
+    @background-alt 99.1%
+  );
+}
+#custom-mediaplayer.perc100-0 {
+  background-image: linear-gradient(
+    to right,
+    @accent 100%,
+    @background-alt 100.1%
+  );
+}

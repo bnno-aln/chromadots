@@ -1,0 +1,11 @@
+@define-color background           rgb(39, 33, 18);
+@define-color background-alt       rgb(96, 64, 31);
+@define-color accent               rgb(159, 108, 69);
+@define-color accent-alt           rgb(233, 151, 55);
+@define-color text-color           rgb(199, 168, 114);
+
+/* @define-color background           rgb(39, 33, 18);
+@define-color background-alt       rgb(96, 64, 31);
+@define-color accent               rgb(159, 108, 69);
+@define-color accent-alt           rgb(233, 151, 55);
+@define-color text-color           rgb(199, 168, 114); */
