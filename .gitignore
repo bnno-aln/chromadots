@@ -1,4 +1,4 @@
 *.log
 *.temp
-/tmp_files/
+clipse/tmp_files/
 clipboard_history.json
