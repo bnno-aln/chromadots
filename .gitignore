@@ -1,5 +1,6 @@
 *.log
 *.temp
+.obsidian
 clipse/tmp_files/
 clipboard_history.json
 hyprpaper.conf
