@@ -1,18 +1,20 @@
 # Chroma Dots
 
-![[showcase.mp4]]
+https://github.com/user-attachments/assets/6de4b280-9d36-4346-a6d7-0382c54ba26b
 
 ---
 ## Screenshots
 **Example palette 1 (Dark)**
-![[palette_1_dark.png]]
+![palette_1_dark](https://github.com/user-attachments/assets/6ee49ae0-df57-476d-aa66-77e2a8dc73ac)
+
 **Example palette 1 (Light)**
-![[palette_1_light.png]]
+![palette_1_light](https://github.com/user-attachments/assets/1ca6a134-be29-4b08-8afa-639cf3d083fa)
 
 **Example palette 2 (Dark)**
-![[palette_2_dark.png]]
+![palette_2_dark](https://github.com/user-attachments/assets/ebc04ebe-c32e-487a-a1c9-2c66825525a8)
+
 **Example palette 2 (Light)**
-![[pallete_2_light.png]]
+![palette_2_light](https://github.com/user-attachments/assets/b473c484-0f23-4f0a-9480-d588c5cc9d2c)
 
 ---
 ## Used programs
