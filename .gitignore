@@ -1,7 +1,7 @@
 *.log
 *.temp
 .obsidian
-clipse/tmp_files/
+dotfiles/clipse/tmp_files/
 clipboard_history.json
 hyprpaper.conf
-hypr/monitors.conf
+dotifles/hypr/monitors.conf
