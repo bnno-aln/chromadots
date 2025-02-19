@@ -1,4 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/lang-en--US-green)](https://github.com/bnno-aln/chromadots/blob/main/README.pt-br.md)
+[![Static Badge](https://img.shields.io/badge/lang-en--US-green)](https://github.com/bnno-aln/chromadots/blob/main/README.md)
 
 ### Descrição
 Projeto para archlinux utilizando waypaper como mediador para executar um script de troca de paleta utilizando o papel de parede utilizado.
