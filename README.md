@@ -5,8 +5,7 @@
 Project for archlinux using waypaper as a mediator to perform a palette exchange script using the wallpaper used.
 Supports all formats used by the waypaper
 
-
-![](Assets/chromadots.mp4)
+https://github.com/user-attachments/assets/c708cfef-df16-41c1-879e-384afe0ace1c
 
 ### What is Chromadots
 This project came about as a simple script to change the colors of the waybar, but as I perfected, the project grew in scope. Seeing programs that use CSS to control interface colors 
