@@ -1,57 +1,50 @@
-# Chroma Dots
+### Description
+Project for archlinux using waypaper as a mediator to perform a palette exchange script using the wallpaper used.
+Supports all formats used by the waypaper
 
-https://github.com/user-attachments/assets/6de4b280-9d36-4346-a6d7-0382c54ba26b
+chromadots.mp4
 
----
-## Screenshots
-**Example palette 1 (Dark)**
-![palette_1_dark](https://github.com/user-attachments/assets/6ee49ae0-df57-476d-aa66-77e2a8dc73ac)
+### What is Chromadots
+This project came about as a simple script to change the colors of the waybar, but as I perfected, the project grew in scope. Seeing programs that use CSS to control interface colors 
 
-**Example palette 1 (Light)**
-![palette_1_light](https://github.com/user-attachments/assets/1ca6a134-be29-4b08-8afa-639cf3d083fa)
-
-**Example palette 2 (Dark)**
-![palette_2_dark](https://github.com/user-attachments/assets/ebc04ebe-c32e-487a-a1c9-2c66825525a8)
-
-**Example palette 2 (Light)**
-![palette_2_light](https://github.com/user-attachments/assets/b473c484-0f23-4f0a-9480-d588c5cc9d2c)
-
----
-## Used programs
+- Programs used
 - Hyprland
-- Hyprlock - Hyprland lock screen
-- Hypridle - Hyprland idle handler
-- Clipse - Clipboard manager
-- Waybar - Navbar at the top of the screen
-- Waypaper - Wallpaper manager, responsible for executing the palette switch script
-- Swaync - Notification Center
-- Rofi - App Launcher
-- Wlogout - Logout, Shutdown, Restart and Lock dialog
-- Kitty - Terminal emulator
+- Hyprlock
+- Hypridle
+- Waypaper
+- Waybar
+- Kitty
+- Rofi
+- Clips of Clip
+- Swaync
+- Wlogout
 
-Spotify and discord are next on the list
 
----
-## Installation process
-**The files and folder names are important, changing the name of any might break the automatic palette change**
+### Examples
+#### The Palette example 1
+Palette1_dark.png
+Palette1_light.png
 
-1. **Backup your files**
-	1. **Make sure your .config folder have a backup, or at the very least the config for the programs above**
-2. Install all used programs
-3. Create a Python Virtual environment for the scripts to work
-	1. Go to your waybar config folder in ~/.config/waybar
-	2. In your terminal use the command `python -m venv waybar-venv`
-	3. Inside the venv go in the bin folder and use `source activate` to install the necessary modules
-		1. `pip install pylette`
-		2. `pip install configparser`
-4. Download repository
-	1. Get the files, either:
-		1. Download the repository as a zip file in **Code<>**
-		2. Git clone to your PC and move its contents to the .config folder in home
-5. Copy the files to the .config folder
-	1. Make sure you have made a backup first
-	2. Copy the folders inside the dotfiles folder to your .config folder in `/home/username/.config`
-6. Use the palette
-	1. Restart waybar to use the theme with `killall -SIGUSR2 waybar`
-	2. Apply a wallpaper with waypaper
-	3. Done
+#### Palette example 2
+Palette2_dark.png
+Palette2_light.png
+
+### Installation method
+1. **Backup your data and .config folder**
+	1. **This step is extremely important due to the nature of the project**
+2. Install the necessary programs
+	2. Chromadots uses AURs, it is recommended to use an AUR Helper like yay or paru
+		1. If you have yay installed use: `yay -S hyprlock hyprlock hypridle waybar waypaper rofi-wayland swaync wlogout python-pywal16 python-haishoku pythonon-configargparse clipse`
+	3. To add the colors of the palette to your terminal follow the [pywal tutorial](https://github.com/eylles/pywal16/wiki/Getting-Started-applying-the-theme-to-new-terminals)
+3. Create a virtual python environment for installing the necessary packages
+	1. **It is important to keep the name of files and folders in order not to occur problems in the execution of the script**
+	2. Go to the waybar folder, create a folder called scripts
+	3. Inside the scripts folder use the command `python -m venv waybar-venv`
+	4. Activate the venv with the command `source waybar-venv/bin/activate`
+		1. Use `pip install -r requirements.txt` to install the packages necessary for the operation of the waybar modules and the palette script
+4. Acquire Chromadots
+	1. Choose from:
+		1. `git clone https://github.com/bnno-aln/chromadots`
+		2. Click code and download ZIP file
+		3. Use the script (WIP)
+	2. Extract/Move content to your .config
