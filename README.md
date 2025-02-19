@@ -20,7 +20,7 @@ This project came about as a simple script to change the colors of the waybar, b
 - Waybar
 - Kitty
 - Rofi
-- Clips of Clip
+- Clipse
 - Swaync
 - Wlogout
 
@@ -57,7 +57,7 @@ This project came about as a simple script to change the colors of the waybar, b
     5. Use `pip install Pylette` to install the package necessary for the operation of the waybar modules and the palette script
 6. Acquire Chromadots
     1. Choose from:
-    2. `git clone https://github.com/bnno-aln/chromadots/dotfiles`
+    2. `git clone https://github.com/bnno-aln/chromadots`
     3. Click code and download the repo as a ZIP file
     4. Use the script (WIP)
 7. Extract/Move content to your .config

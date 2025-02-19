@@ -57,7 +57,7 @@ Esse projeto surgiu como um simples script para trocar as cores do waybar, mas c
    5. Use `pip install Pylette` para instalar os pacotes necessários para o funcionamento dos módulos do waybar e o script de paletas
 6. Adquira Chromadots
     1. Escolha:
-    2. `git clone https://github.com/bnno-aln/chromadots/dotfiles`
+    2. `git clone https://github.com/bnno-aln/chromadots`
     3. Clique em code e baixe o repositório como arquivo ZIP
     4. Use o script (WIP)
 7. Extraia/Mova o conteúdo para sua .config
