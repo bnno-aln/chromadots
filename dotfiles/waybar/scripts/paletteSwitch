@@ -6,26 +6,28 @@ import argparse
 import os
 import re
 
-"""
-This script is made for use alongside waypaper.
-It uses the Pylette library to extract colors from an image/gif.
-It can modify the hyprland, rofi and waybar theme to use the extracted colors.
-"""
 
+user_home = os.path.expanduser("~")
 
 # Waypaper config file path
-waypaper_config_path = os.path.expanduser("~") + "/.config/waypaper/config.ini"
+waypaper_config_path = user_home + "/.config/waypaper/config.ini"
 
 # Themes file path
-hyprland_colors_path = os.path.expanduser("~") + "/.config/hypr/colors.conf"
-hyprlock_path = os.path.expanduser("~") + "/.config/hypr/hyprlock.conf"
-rofi_theme_path = os.path.expanduser("~") + "/.config/rofi/theme.rasi"
-waybar_theme_path = os.path.expanduser("~") + "/.config/waybar/theme.css"
-clipse_theme_path = os.path.expanduser("~") + "/.config/clipse/custom_theme.json"
-theme_mode_path = os.path.expanduser("~") + "/.config/waybar/theme"
+waybar_theme_path = user_home + "/.config/waybar/theme.css"
+theme_mode_path = user_home + "/.config/waybar/theme"
+wlogout_theme_path = user_home + "/.config/wlogout/style.css"
+rofi_theme_path = user_home + "/.config/rofi/theme.rasi"
+clipse_theme_path = user_home + "/.config/clipse/custom_theme.json"
+hyprland_colors_path = user_home + "/.config/hypr/colors.conf"
+hyprlock_path = user_home + "/.config/hypr/hyprlock.conf"
 
 # Color names from darker to lighter (5 colors by default)
 # Make sure that these variables exist in the config file
+
+# Hyprland colors are named background, background-alt, accent, accent-alt, text-color
+# If you want to add or remove more colors, add them to this list, edit the number_of_colors variable
+# and modify our hyprland to use them
+
 color_names = ["background", "background-alt", "accent", "accent-alt", "text-color"]
 number_of_colors = 5
 
@@ -80,6 +82,17 @@ def rgb_to_hex(color: tuple) -> str:
 
 
 def hls_palette(colors):
+    """
+    Converts a list of pylette colors to a dictionary of HLS colors.
+
+    HLS colors are represented as a tuple of (hue, saturation, lightness).
+
+    Args:
+        colors (list): A list of pylette colors
+
+    Returns:
+        dict: A dictionary of HLS colors with the same keys as color_names.
+    """
     hsl = dict()
     for color in enumerate(colors):
         temp_colors = list()
@@ -141,15 +154,38 @@ class palette:
 
 
 def get_wallpaper(waypaper_path):
+    """
+    Reads the current wallpaper from the waypaper configuration file specified by the
+    `waypaper_path` argument and returns its path.
+
+    The path is expanded using the os.path.expanduser() function to replace the tilde
+    ("~") with the user's home directory.
+
+    Args:
+        waypaper_path (str): The path to the waypaper configuration file.
+
+    Returns:
+        str: The path to the current wallpaper.
+
+    """
     config = ConfigParser()
     config.read(waypaper_path)
 
     wallpaper = config.get("Settings", "wallpaper")
-    wallpaper = wallpaper.replace("~", os.path.expanduser("~"))
+    wallpaper = wallpaper.replace("~", user_home)
     return wallpaper
 
 
 def get_palette():
+    """
+    Extracts the palette of colors from the current wallpaper using the Pylette library.
+
+    Args:
+        None
+
+    Returns:
+        A Pylette.Colors object containing the palette of colors.
+    """
     colors = extract_colors(
         get_wallpaper(waypaper_config_path), number_of_colors, sort_mode="luminance"
     )
@@ -157,6 +193,22 @@ def get_palette():
 
 
 def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
+    """
+    Modifies the Hyprland theme by updating its color configuration file with new colors.
+
+    This function reads the existing color configuration from the provided file path,
+    extracts the current color settings using a regular expression, and updates them with
+    the new colors specified in the `colors_hex` and `colors_rgb` dictionaries. It handles
+    both standard RGB and RGBA (with alpha channel) color formats, ensuring that any
+    "-alpha" identifiers in the configuration lines are preserved and adjusted accordingly.
+    Finally, the modified configuration is written back to the file.
+
+    Args:
+        hyprland_colors_path (str): The file path to the Hyprland color configuration file.
+        colors_hex (dict): A dictionary of color names mapped to their hexadecimal values.
+        colors_rgb (dict): A dictionary of color names mapped to their RGB values.
+    """
+
     # Reformat the colors to {"color name": "(color value)"}
     new_colors_rgb = dict()
     new_colors_hex = dict()
@@ -167,15 +219,12 @@ def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
         color = str(color).replace("'", "")
         new_colors_hex.update({f"${name}": str(color).replace("#", "")})
 
-    # print(new_colors_rgb)
-    # print(new_colors_hex)
-
-    # return
-
     # Reads the color.conf
     with open(hyprland_colors_path, "r") as file:
         config = file.readlines()
 
+    # Regular expression
+    # Example: Looks for $accent = rgb(255, 0, 0), $accent-alt = rgba(255, 0, 0, 0.5) or $accent-alt-alpha = rgba(255, 0, 0, 0.5)
     lookup = r"(\$\w*|\$\w*-\w*|\$\w*-\w*-\w*)\s*=\s*(\w*)\((.*)\)"
 
     old_colors = dict()
@@ -197,7 +246,7 @@ def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
                     )
                 else:
                     config[num] = f"{key} = rgb({new_colors_hex[key]})\n"
-                print(key, value[0], value[1])
+                # print(key, value[0], value[1])
 
     # Updates the color.conf with the new colors
     with open(hyprland_colors_path, "w") as file:
@@ -206,6 +255,20 @@ def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
 
 
 def modify_rofi_theme(theme_path, new_colors):
+    """
+    Modifies the Rofi theme by updating its configuration file with new colors.
+
+    This function reads the existing color configuration from the provided file path,
+    extracts the current color settings using a regular expression, and updates them with
+    the new colors specified in the `new_colors` dictionary. It handles both standard RGB
+    and RGBA (with alpha channel) color formats, ensuring that any "-alpha" identifiers in
+    the configuration lines are preserved and adjusted accordingly. Finally, the modified
+    configuration is written back to the file.
+
+    Args:
+        theme_path (str): The file path to the Rofi theme configuration file.
+        new_colors (dict): A dictionary of color names mapped to their RGB values.
+    """
     with open(theme_path, "r") as file:
         config = file.readlines()
 
@@ -233,6 +296,20 @@ def modify_rofi_theme(theme_path, new_colors):
 
 
 def modify_waybar_theme(theme_path, new_colors):
+    """
+    Modifies the Waybar theme by updating its configuration file with new colors.
+
+    This function reads the existing color configuration from the provided file path,
+    extracts the current color settings, and updates them with the new colors specified
+    in the `new_colors` dictionary. The colors are updated using regular expressions
+    to match and replace the RGB values in the configuration lines. Finally, the modified
+    configuration is written back to the file.
+
+    Args:
+        theme_path (str): The file path to the Waybar theme configuration file.
+        new_colors (dict): A dictionary of color names mapped to their RGB values.
+    """
+
     with open(theme_path, "r") as file:
         config = file.readlines()
 
@@ -300,7 +377,36 @@ def update_pywal_dependent(mode):
     os.system(f"pywal-discord -t {discord_template}")
 
 
+def modify_wlogout_theme(theme_path, state):
+    with open(theme_path, "r") as file:
+        config = file.readlines()
+
+    for num, line in enumerate(config, 0):
+        config[num] = re.sub(r"_(\w*).png", f"_{state}.png", line)
+
+    with open(theme_path, "w") as file:
+        file.writelines(config)
+        file.close()
+
+
 def change_themes():
+    """
+    Changes the theme of various applications based on the current theme state and
+    command-line arguments.
+
+    This function reads the current theme state from a configuration file and updates
+    the themes for Waybar, Rofi, Hyprland, Clipse, and Pywal based on specified command-line
+    arguments. It supports toggling between light and dark modes and can update themes
+    universally or specifically for Waybar and Pywal. It uses external commands and
+    theme modification functions to apply the changes.
+
+    The function also handles errors in theme extraction and provides notifications
+    for theme changes.
+
+    Args:
+        None
+    """
+
     theme_state = dict()
     temp = list()
     with open(theme_mode_path, "r") as file:
@@ -325,6 +431,7 @@ def change_themes():
                     palette(theme="dark").hex,
                     palette(theme="dark").rgb,
                 )
+                modify_wlogout_theme(wlogout_theme_path, "white")
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Waybar theme switched" "Theme changed to Dark Mode"'
@@ -341,6 +448,7 @@ def change_themes():
                     palette(theme="light").hex,
                     palette(theme="light").rgb,
                 )
+                modify_wlogout_theme(wlogout_theme_path, "black")
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Waybar theme switched" "Theme changed to Light Mode"'
@@ -376,6 +484,7 @@ def change_themes():
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
+                modify_wlogout_theme(wlogout_theme_path, "white")
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Universal theme switched" "Theme changed to Dark Mode"'
@@ -411,6 +520,7 @@ def change_themes():
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
+                modify_wlogout_theme(wlogout_theme_path, "black")
                 os.system("swaync-client --reload-css")
                 os.system(
                     'notify-send "Universal theme switched" "Theme changed to Light Mode"'
@@ -514,6 +624,20 @@ def change_themes():
 
 
 def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
+    """
+    Updates the Hyprlock wallpaper by resizing the specified image.
+
+    This function checks if the provided wallpaper is a GIF or another image format.
+    If it's a GIF, it uses the `convert` command to resize the first frame to 1920x1080
+    and save it as `current.png` in the specified temporary directory. If it's not a GIF,
+    it uses the `magick` command to resize the image to 1920x1080 and save it as
+    `current.png` in the same directory.
+
+    Args:
+        hyprlock_path (str): The path to the Hyprlock configuration file.
+        wallpaper (str): The path to the wallpaper image to be resized.
+    """
+
     if ".gif" in wallpaper:
         os.system(
             f"convert '{wallpaper}[0]' -resize 1920x1080 ~/.config/hypr/temp/current.png"
@@ -524,8 +648,99 @@ def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
         )
 
 
+def modify_spicetify():
+    """
+    Modifies the Spicetify theme colors based on the current Pywal colors.
+
+    This function reads the current Pywal colors from the cache and updates the
+    Spicetify theme's color configuration to match the new colors. It maps the old
+    color names to their respective indices in the Pywal color list and replaces
+    them in the Spicetify configuration file. The function then saves the updated
+    configuration and restarts Spicetify to apply the changes.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+
+    if args["waybar"] is False:
+        with open(user_home + "/.cache/wal/colors", "r") as file:
+            config = file.readlines()
+            file.close()
+
+        new_colors = list()
+        for num, line in enumerate(config, 0):
+            new_colors.append(line.strip().replace("#", ""))
+
+        with open(user_home + "/.config/spicetify/Themes/text/color.ini", "r") as file:
+            config = file.readlines()
+            file.close()
+
+        old_colors = {
+            "accent": "6",
+            "accent-active": "9",
+            "accent-inactive": "5",
+            "banner": "8",
+            "border-active": "10",
+            "border-inactive": "7",
+            "header": "14",
+            "highlight": "13",
+            "main": "0",
+            "notification": "none",
+            "notification-error": "none",
+            "subtext": "14",
+            "text": "14",
+        }
+
+        for num, line in enumerate(config):
+            for name, value in old_colors.items():
+                if line.startswith(name) and ";" not in line:
+                    try:
+                        config[num] = re.sub(
+                            r"(\w*|\w*-\w*)\s*=\s*(\w*)",
+                            f"{name} = {new_colors[int(value)]}",
+                            line,
+                        )
+                    except ValueError:
+                        continue
+
+        with open(user_home + "/.config/spicetify/Themes/text/color.ini", "w") as file:
+            file.writelines(config)
+            file.close()
+
+        os.system("spicetify watch -s &")
+        os.system("sleep 4 && pkill spicetify")
+
+
+def export_colors_hyprland():
+    """
+    Exports the current colors of the palette to two configuration files for Hyprland.
+
+    This function calls modify_hyprland_theme twice to generate two separate
+    configuration files for Hyprland, one for the light theme and one for the dark
+    theme.
+    """
+    modify_hyprland_theme(
+        user_home + "/.config/hypr/colors_light.conf",
+        palette(theme="light").hex,
+        palette(theme="light").rgb,
+    )
+    modify_hyprland_theme(
+        user_home + "/.config/hypr/colors_dark.conf",
+        palette(theme="dark").hex,
+        palette(theme="dark").rgb,
+    )
+
+
 # ------------------- Main Program ------------------ #
 
 
 change_themes()
+export_colors_hyprland()
 update_hyprlock_wallpaper(hyprlock_path, get_wallpaper(waypaper_config_path))
+
+if "spotify" in os.popen("playerctl -l").read():
+    print("Spotify is running")
+    modify_spicetify()

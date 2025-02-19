@@ -3,7 +3,7 @@
     //"layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
     // "height": 38, // Waybar height (to be removed for auto height)
-    "width": 1350, // Waybar width
+    "width": "auto", // Waybar width
     "margin-top": -2,
     "margin-bottom": -10,
     "spacing": 0, // Gaps between modules (4px)
@@ -20,13 +20,14 @@
     ],
     
     "modules-center": [
-        "hyprland/window"
+        "hyprland/window",
+        "custom/wifi"
     ],
     
     "modules-right": [
         "custom/updates",
-        "group/info_tray",
-        "group/time_weather"
+        "group/icon_tray",
+        "group/info_tray"
         // "custom/power"
     ],
 
@@ -52,20 +53,21 @@
         ]
     },
 
-    "group/time_weather": {
+    "group/info_tray": {
         "orientation": "horizontal",
         "modules": [
-            "custom/weather",
+            "network",
+            "bluetooth",
             "group/audio",
+            "custom/weather",
             "clock"
         ]
     },
 
-    "group/info_tray": {
+    "group/icon_tray": {
         "orientation": "horizontal",
         "modules": [
-            "tray",
-            "network"
+            "tray"
         ]
     },
 
@@ -87,12 +89,14 @@
         "orientation": "horizontal",
         "drawer": {
             "transition-duration": 200,
-            "transition-left-to-right": false,
+            "transition-left-to-right": true,
             "click-to-reveal": false
         },
         "modules": [
-            "custom/mediaplayer",
-            "image"
+            "custom/player_status",
+            "custom/spotify_player"
+            // "custom/mediaplayer",
+            // "image"
         ]
     },
 
@@ -200,12 +204,21 @@
 	    }
     },
 
-    "custom/weather": {
-        "exec": "$HOME/.config/waybar/scripts/get_weather.sh Barueri",
-        "return-type": "json",
-        "format": "{}",
-        "tooltip": true,
-        "interval": 3600
+    "bluetooth": {
+        "format": "󰂯 {status}",
+        "format-off": "󰂲",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂯 {device_alias}",
+        "format-connected-battery": "󰂯 {device_alias} {device_battery_percentage}%",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        "tooltip-format-disabled": "{controller_alias}\t{controller_address}\n\nDevice disabled",
+        "tooltip-format-off": "{controller_alias}\t{controller_address}\n\nDevice off",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_ennumerate}",
+        "tooltip-format-ennumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-ennumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)",
+        "on-click-right": "kitty -- zsh -c 'cat ~/.cache/wal/sequences;bluetui'"
     },
 
     "network": {
@@ -221,7 +234,7 @@
         "max-length": 50,
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "on-click": "nm-connection-editor",
-        "on-click-right": "kitty nmtui",
+        "on-click-right": "kitty -- zsh -c 'cat ~/.cache/wal/sequences;nmtui'",
         "interveal": "0.1"
     },
 
@@ -232,7 +245,7 @@
         "return-type": "json",
         "exec-if": "exit 0",
         "signal": 8,
-        "on-click": "kitty yay"
+        "on-click": "kitty -- zsh -c 'cat ~/.cache/wal/sequences;yay'"
     },
 
     // "idle_inhibitor": {
@@ -324,5 +337,33 @@
         "format": "{0}", // For custom icons change {0} to {icon} and uncomment format-icons
         // "format-icons": {"Dark mode": "", "Light mode": ""},
         "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tp"
+    },
+
+    "custom/spotify_player": {
+        "exec": "$HOME/.config/waybar/scripts/spotify_player",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-right": "playerctl -p spotify next",
+        "on-click-middle": "playerctl -p spotify previous"
+    },
+
+    "custom/player_status": {
+        "exec": "$HOME/.config/waybar/scripts/player_status",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-right": "playerctl -p spotify next",
+        "on-click-middle": "playerctl -p spotify previous"
+    },
+
+    "custom/weather": {
+        "exec": "$HOME/.config/waybar/scripts/weather -w",
+        "interval": 600,
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true
     }
 }

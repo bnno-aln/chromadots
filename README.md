@@ -47,8 +47,7 @@ This project came about as a simple script to change the colors of the waybar, b
 3. Install a nerd font for the icons in waybar, the one already configured is JetBrain Mono Nerd Font
    1. To install it download the font and place in .local/share/fonts or use `yay -S ttf-jetbrains-mono-nerd`
 4. Enable autostart for hypridle, waypaper, swaync and clipse
-   1. Waypaper and clipse are configured in the .config/hypr/configs/programs.conf
-   2. Swaync and Hypridle can be autostarted with `systemctl enable`/`systemctl start`
+   1. They are started in .config/hypr/configs/programs.conf, but can also be auto started with `systemctl enable`/`systemctl start`
 5. Create a virtual python environment for installing the necessary packages
     1. **It is important to keep the name of files and folders in order not to occur problems in the execution of the script**
     2. Go to the waybar folder, create a folder called scripts

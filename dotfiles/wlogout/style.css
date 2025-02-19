@@ -1,13 +1,13 @@
 * {
   background-image: none;
   font-size: 12px;
-  font-family: "Source Code Pro";
+  font-family: "JetBrainsMono Nerd Font";
 }
 
-@import "/home/bnno/.config/waybar/theme.css";
+@import "../waybar/theme.css";
 
 window {
-  background-color: alpha(@background, 0.7);
+  background-color: alpha(@background, 0.5);
 }
 
 button {
@@ -28,11 +28,6 @@ button {
   transition: all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682);
 }
 
-/* button:focus {
-  background-color: @background;
-  background-size: 15%;
-} */
-
 button:hover {
   background-color: @accent;
   background-size: 25%;
@@ -46,9 +41,7 @@ button:hover {
 }
 
 #lock {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/lock_white.png")
-  );
+  background-image: image(url("./icons/lock_white.png"));
   border-radius: 12px;
   margin: 4px;
   padding: 0px;
@@ -56,19 +49,7 @@ button:hover {
 }
 
 #logout {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/logout_white.png")
-  );
-  border-radius: 12px;
-  margin: 4px;
-  padding: 0px;
-  min-width: 64px;
-}
-
-#suspend {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/suspend_white.png")
-  );
+  background-image: image(url("./icons/logout_white.png"));
   border-radius: 12px;
   margin: 4px;
   padding: 0px;
@@ -76,19 +57,7 @@ button:hover {
 }
 
 #shutdown {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/shutdown_white.png")
-  );
-  border-radius: 12px;
-  margin: 4px;
-  padding: 0px;
-  min-width: 64px;
-}
-
-#hibernate {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/hibernate_white.png")
-  );
+  background-image: image(url("./icons/shutdown_white.png"));
   border-radius: 12px;
   margin: 4px;
   padding: 0px;
@@ -96,9 +65,7 @@ button:hover {
 }
 
 #reboot {
-  background-image: image(
-    url("/home/bnno/.config/wlogout/icons/reboot_white.png")
-  );
+  background-image: image(url("./icons/reboot_white.png"));
   border-radius: 12px;
   margin: 4px;
   padding: 0px;

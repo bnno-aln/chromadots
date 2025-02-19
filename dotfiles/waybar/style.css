@@ -165,20 +165,21 @@ tooltip label {
   transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
 }
 
-@import "./scripts/waybar-mediaplayer/style.css";
-#custom-mediaplayer {
+#custom-spotify_player,
+#custom-player_status {
+  background: @background;
   color: @text-color;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
   border-radius: 32px;
-  min-width: 4px;
-  margin: 5px 4px;
-  padding: 0px 12px;
-  box-shadow: none;
+  padding: 0px 14px 0px 12px;
+  margin: 4px;
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
 }
 
-#image {
-  border-radius: 32px;
-  margin: 4px 4px;
+#custom-spotify_player:hover,
+#custom-player_status:hover {
+  color: @background;
+  background: @text-color;
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
 }
 
 /* ------------------------------------------------------- Center Modules --------------------------------------------------------------- */
@@ -224,21 +225,77 @@ window#waybar.empty #window {
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
 }
 
-#info_tray {
+/* --------- Icon Tray group ---------- */
+
+#icon_tray {
   box-shadow: transparent;
   background: @background;
   border-radius: 32px;
   margin: 4px 2px;
-  padding: 2px 2px;
+  padding: 0px;
 }
 
+#tray {
+  color: @text-color;
+  background: @background;
+  border-radius: 32px;
+  margin: 4px 2px;
+  padding: 1px 6px;
+}
+
+/* --------- Info Tray group ---------- */
+
+#info_tray {
+  color: @text-color;
+  background: @background;
+  border-radius: 32px;
+  margin: 4px 4px;
+  margin-left: 2px;
+  padding: 0px;
+}
+
+#network {
+  color: @text-color;
+  background: @background;
+  margin: 3px 3px;
+  padding: 0px 8px;
+  padding-right: 10px;
+  border-radius: 32px;
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+#network:hover {
+  color: @background;
+  background: @text-color;
+  /* box-shadow: none; */
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+#bluetooth {
+  color: @text-color;
+  background: @background;
+  margin: 3px 3px;
+  padding: 0px 8px;
+  padding-right: 10px;
+  border-radius: 32px;
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+#bluetooth:hover {
+  color: @background;
+  background: @text-color;
+  /* box-shadow: none; */
+  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
+}
+
+/* --- Volume Indicator --- */
 #custom-pipewire {
   color: @text-color;
   background: @background;
   min-width: 42px;
-  margin: 3px;
+  margin: 3px 1px;
   border-radius: 32px;
-  padding: 0px 6px;
+  padding: 0px 4px;
   transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
 }
 
@@ -249,6 +306,7 @@ window#waybar.empty #window {
   /* box-shadow: none; */
 }
 
+/* --- Volume Slider --- */
 /* #pulseaudio-slider: Controls the style of the box around the slider and bar. */
 #pulseaudio-slider {
   margin: 0px 2px;
@@ -287,40 +345,6 @@ window#waybar.empty #window {
   background-color: @accent;
 }
 
-#network {
-  color: @text-color;
-  background: @background;
-  margin: 2px 2px;
-  padding: 0px 8px;
-  padding-right: 10px;
-  border-radius: 32px;
-  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
-}
-
-#network:hover {
-  color: @background;
-  background: @text-color;
-  /* box-shadow: none; */
-  transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
-}
-
-#tray {
-  color: @text-color;
-  background: @background;
-  border-radius: 32px;
-  margin: 4px 2px;
-  padding: 0px 3px 0px 6px;
-}
-
-#time_weather {
-  color: @text-color;
-  background: @background;
-  border-radius: 32px;
-  margin: 4px 4px;
-  margin-left: 2px;
-  padding: 0px;
-}
-
 #custom-weather {
   color: @text-color;
   background: @background;
@@ -352,6 +376,8 @@ window#waybar.empty #window {
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0, 0.42, 0.58, 1);
 }
+
+/* ----- Unused Modules ----- */
 
 #custom-power {
   color: @text-color;

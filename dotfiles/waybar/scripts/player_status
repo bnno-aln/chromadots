@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import os
+
+status = os.popen("playerctl status -p spotify").read().strip()
+player = (
+    os.popen("playerctl metadata --format '{{ playerName }}' -p spotify").read().strip()
+).capitalize()
+
+if status == "Playing":
+    status = ""
+elif status == "Paused":
+    status = ""
+elif status == "Stopped":
+    status = ""
+
+print(
+    f'{{"text": "{status}", "tooltip": "Player: {player}\\nLeft click: Play/Pause\\nRight click: Next\\nMiddle click: Previous"}}'
+)
+
+# os.system(f'echo \'{{"text": "{title} - {artist}", "tooltip": "{title} - {artist}"}}\'')
+
+
+# Parse command-line arguments
+# parser = argparse.ArgumentParser(
+#     description="Change colors for hyprland, rofi, waybar (using Pylette) and clipse, terminal, discord and firefox (using Pywal)",
+#     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+# )
+# parser.add_argument(
+#     "-t",
+#     "--toggle",
+#     action="store_true",
+#     required=False,
+#     help="Toggle the theme between light and dark. Use alongside -p, -w or -u",
+# )
+
+# args = parser.parse_args()
+# args = vars(args)

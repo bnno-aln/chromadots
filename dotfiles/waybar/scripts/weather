@@ -1,0 +1,85 @@
+#!/usr/bin/python
+
+import json
+import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-l",
+    "--hyprlock",
+    action="store_true",
+    required=False,
+    help="Print weather for Hyprlock",
+)
+parser.add_argument(
+    "-w",
+    "--waybar",
+    action="store_true",
+    required=False,
+    help="Print weather for Waybar",
+)
+args = parser.parse_args()
+args = vars(args)
+
+
+# see https://open-meteo.com/en/docs#latitude-and-longitude for coordinates
+latitude = -23.5106
+longitude = -46.8761
+
+# see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for list
+timezone = "America/Sao_Paulo"
+timezone.replace("/", "%2F")
+
+wmo_codes = {
+    0: ["clear sky", "󰖙"],
+    1: ["mainly clear", ""],
+    2: ["partly cloudy", "󰖕"],
+    3: ["overcast", "󰖐"],
+    45: ["fog", "󰖑"],
+    48: ["depositing rime fog", "󰖑"],
+    51: ["drizzle: light", "󰖒"],
+    53: ["drizzle: moderate", "󰖒"],
+    55: ["drizzle: dense", "󰖒"],
+    56: ["freezing drizzle: light", "󰼵"],
+    57: ["freezing drizzle: dense", "󰼵"],
+    61: ["rain: slight", "󰖗"],
+    63: ["rain: moderate", "󰖖"],
+    65: ["rain: heavy", "󰖖"],
+    66: ["freezing rain: light", "󰙿"],
+    67: ["freezing rain: heavy", "󰙿"],
+    71: ["snow fall: slight", "󰼴"],
+    73: ["snow fall: moderate", "󰖘"],
+    75: ["snow fall: heavy", "󰼶"],
+    77: ["snow grains", "󰖒"],
+    80: ["rain showers: slight", "󰖒"],
+    81: ["rain showers: moderate", "󰼳"],
+    82: ["rain showers: violent", "󰖗"],
+    85: ["snow showers: slight", "󰼴"],
+    86: ["snow showers: heavy", "󰖘"],
+    95: ["thunderstorm: slight or moderate", "󰼲"],
+    96: ["thunderstorm with slight hail", "󰙾"],
+    99: ["thunderstorm with heavy hail", "󰖓"],
+}
+
+weather = os.popen(
+    f"curl -s 'https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,apparent_temperature,weather_code&hourly=precipitation_probability,is_day&daily=temperature_2m_max,temperature_2m_min&timezone={timezone}&forecast_days=1'"
+).read()
+
+weather = json.loads(weather)
+
+max_temp = f"{str(weather['daily']['temperature_2m_max'][0])}{str(weather['daily_units']['temperature_2m_max'])}"
+min_temp = f"{str(weather['daily']['temperature_2m_min'][0])}{str(weather['daily_units']['temperature_2m_max'])}"
+
+current_weather = f"{str(wmo_codes[weather['current']['weather_code']][1])} {str(weather['current']['temperature_2m'])} {str(weather['current_units']['temperature_2m'])}"
+current_weather_icon = str(wmo_codes[weather["current"]["weather_code"]][1])
+current_weather_desc = str(wmo_codes[weather["current"]["weather_code"]][0])
+
+if args["hyprlock"]:
+    print(current_weather.lower())
+    print(current_weather_desc.lower())
+
+if args["waybar"]:
+    print(
+        f'{{"text": "{current_weather}", "icon": "{current_weather_icon}", "tooltip": "Temperature today\t▲{max_temp} ▼{min_temp}\\nCurrent weather\t\t{current_weather_desc.capitalize()}"}}'
+    )

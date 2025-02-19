@@ -17,12 +17,12 @@ configuration {
   active: #90909030;
   urgent: #70707030;
 
-  background:       rgb(183, 192, 207);
-  background-alpha: rgba(183, 192, 207, 0.7);
-  background-alt:   rgb(117, 124, 134);
-  accent:           rgb(75, 79, 86);
-  accent-alt:       rgb(38, 40, 44);
-  text-color:       rgb(11, 12, 14);
+  background:       rgb(43, 62, 58);
+  background-alpha: rgba(43, 62, 58, 0.7);
+  background-alt:   rgb(69, 102, 95);
+  accent:           rgb(83, 132, 123);
+  accent-alt:       rgb(100, 154, 146);
+  text-color:       rgb(142, 201, 189);
 }
 
 /*****----- Main Window -----*****/

@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import os
+
+artist = (
+    os.popen("playerctl metadata --format '{{ xesam:artist }}' -p spotify")
+    .read()
+    .strip()
+)
+title = (
+    os.popen("playerctl metadata --format '{{ xesam:title }}' -p spotify")
+    .read()
+    .strip()
+)
+album = (
+    os.popen("playerctl metadata --format '{{ xesam:album }}' -p spotify")
+    .read()
+    .strip()
+)
+track_number = (
+    os.popen("playerctl metadata --format '{{ xesam:trackNumber }}' -p spotify")
+    .read()
+    .strip()
+)
+length = (
+    os.popen("playerctl metadata --format '{{ duration(mpris:length) }}' -p spotify")
+    .read()
+    .strip()
+)
+progress = (
+    os.popen("playerctl position --format '{{ duration(position) }}' -p spotify")
+    .read()
+    .strip()
+)
+player = (
+    os.popen("playerctl metadata --format '{{ playerName }}' -p spotify").read().strip()
+).capitalize()
+
+print(
+    f'{{"text": "{title} - {artist}", "tooltip": "Player: {player}\\nAlbum: {album}\\nTrack number: {track_number}\\n{progress} - {length}"}}'
+)
