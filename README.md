@@ -1,3 +1,6 @@
+[![Static Badge](https://img.shields.io/badge/lang-pt--BR-green)](https://github.com/bnno-aln/chromadots/blob/main/README.pt-br.md)
+
+
 ### Description
 Project for archlinux using waypaper as a mediator to perform a palette exchange script using the wallpaper used.
 Supports all formats used by the waypaper
@@ -37,7 +40,7 @@ This project came about as a simple script to change the colors of the waybar, b
 2. Install the necessary programs
 	2. Chromadots uses AURs, it is recommended to use an AUR Helper like yay or paru
 		1. If you have yay installed use: `yay -S hyprlock hyprlock hypridle waybar waypaper rofi-wayland swaync wlogout python-pywal16 python-haishoku pythonon-configargparse clipse`
-	3. To add the colors of the palette to your terminal follow the [pywal tutorial](https://github.com/eylles/pywal16/wiki/Getting-Started-applying-the-theme-to-new-terminals)
+	3. To add the colors of the palette to your terminal follow the [pywal tutorial](https://github.com/eylles/pywal16/wiki/Getting-Started#applying-the-theme-to-new-terminals)
 3. Create a virtual python environment for installing the necessary packages
 	1. **It is important to keep the name of files and folders in order not to occur problems in the execution of the script**
 	2. Go to the waybar folder, create a folder called scripts
