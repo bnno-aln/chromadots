@@ -1,8 +1,10 @@
+[![Static Badge](https://img.shields.io/badge/lang-en--US-green)](https://github.com/bnno-aln/chromadots/blob/main/README.md)
+
 ### Descrição
 Projeto para archlinux utilizando waypaper como mediador para executar um script de troca de paleta utilizando o papel de parede utilizado.
 Suporta todos os formatos utilizados pelo waypaper
 
-chromadots.mp4
+https://github.com/user-attachments/assets/c708cfef-df16-41c1-879e-384afe0ace1c
 
 ### O que é Chromadots
 Esse projeto surgiu como um simples script para trocar as cores do waybar, mas conforme eu aperfeiçoava, o projeto crescia em escopo. Vendo os programas que utilizam CSS para controlar as cores da interface 
@@ -22,12 +24,12 @@ Esse projeto surgiu como um simples script para trocar as cores do waybar, mas c
 
 ### Exemplos
 Paleta exemplo 1
-Palette1_dark.png
-Palette1_light.png
+![](Assets/Palette1_dark.png)
+![](Assets/Palette1_light.png)
 
 Paleta exemplo 2
-Palette2_dark.png
-Palette2_light.png
+![](Assets/Palette2_dark.png)
+![](Assets/Palette2_light.png)
 
 ### Método de instalação
 1. **Faça backup dos seus dados e da pasta .config**
