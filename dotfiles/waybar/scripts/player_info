@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+import subprocess
+from time import sleep
+
+
+# Main loop
+while True:
+    # Get media and player info
+    class PlayerInfo:
+        def __init__(self):
+            with open("/tmp/current_player", "r") as f:
+                file_temp = f.readlines()
+                for num, line in enumerate(file_temp):
+                    if "current_player" in line:
+                        player = line.split("=")[1].strip()
+                        break
+                f.close()
+            self.player = player
+            self.album = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ xesam:album }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.title = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ xesam:title }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.artist = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ xesam:artist }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.track_number = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ xesam:trackNumber }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.length = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ duration(mpris:length) }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.progress = subprocess.run(
+                [
+                    "playerctl",
+                    "metadata",
+                    "--format",
+                    "{{ duration(position) }}",
+                    "-p",
+                    f"{player}",
+                ],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+
+    # Format media info
+    media = f"{PlayerInfo().title} - {PlayerInfo().artist}"
+
+    max_length = 32
+
+    try:
+        # If media is longer than max_length chars
+        if len(media) > max_length:
+            # Split media into max_length char chunks
+            # for num in range(len(media)):
+            chars = []
+            chars.append(" ")
+            num = 0
+
+            # Loop through media text
+            for num in range(len(media)):
+                # Add characters to chars
+                for i in range(len(media)):
+                    chars.append(media[i])
+
+                # Add space to the end
+
+                music_chars = []
+                for n in range(0, max_length):
+                    # Add chars to music_chars
+                    try:
+                        music_chars.append(chars[n])
+                    # If chars is out of index escape the loop
+                    except IndexError:
+                        break
+
+                # If first iteration pop first char
+                # if num == 0:
+                #     chars.pop(0)
+
+                # Subsequent iterations pop first char and append to last
+                # else:
+                temp_char = chars[0]
+                chars.pop(0)
+                chars.append(temp_char)
+
+                # Finally print information for waybar as a json string
+                print(
+                    f'{{"text": "{"".join(music_chars)}", "tooltip": "Player: {PlayerInfo().player.title()}\\nAlbum: {PlayerInfo().album}\\nTrack number: {PlayerInfo().track_number}\\n{PlayerInfo().progress} - {PlayerInfo().length}"}}',
+                    flush=True,
+                )
+                sleep(0.1)
+
+                num += 1
+            sleep(0.5)
+
+        else:
+            # If media is shorter than max_length then just print
+            print(
+                f'{{"text": "{media}", "tooltip": "Player: {PlayerInfo().player.title()}\\nAlbum: {PlayerInfo().album}\\nTrack number: {PlayerInfo().track_number}\\n{PlayerInfo().progress} - {PlayerInfo().length}"}}',
+                flush=True,
+            )
+
+    # If user presses ctrl+c then exit
+    except KeyboardInterrupt:
+        break

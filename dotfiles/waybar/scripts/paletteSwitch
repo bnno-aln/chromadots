@@ -734,12 +734,28 @@ def export_colors_hyprland():
     )
 
 
+def update_cava_pywal():
+    try:
+        # Verifies if cava template exists
+        with open(user_home + "/.cache/wal/cava.conf", "r") as file:
+            # Sets colors from pywal to cava dynamically
+            os.system("cp ~/.cache/wal/cava.conf ~/.config/cava/config")
+            file.close()
+
+        # Reloads cava's colorscheme configuration
+        os.system("pkill -USR2 cava")
+    # If cava template doesn't exist
+    except FileNotFoundError:
+        print("Cava template for pywal not found. Skipping...\n")
+
+
 # ------------------- Main Program ------------------ #
 
 
 change_themes()
 export_colors_hyprland()
 update_hyprlock_wallpaper(hyprlock_path, get_wallpaper(waypaper_config_path))
+update_cava_pywal()
 
 if "spotify" in os.popen("playerctl -l").read():
     print("Spotify is running")

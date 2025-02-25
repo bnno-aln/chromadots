@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+
+import subprocess
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-P", "--play-pause", help="Play/Pause", action="store_true")
+parser.add_argument("-n", "--next", help="Next", action="store_true")
+parser.add_argument("-p", "--previous", help="Previous", action="store_true")
+parser.add_argument("--next-player", help="Next player", action="store_true")
+parser.add_argument("--previous-player", help="Previous player", action="store_true")
+
+args = parser.parse_args()
+args = vars(args)
+
+# Get media and player info
+current_players = subprocess.run(
+    ["playerctl", "-l"], capture_output=True, text=True
+).stdout.strip()
+current_players = current_players.split("\n")
+
+with open("/tmp/current_player", "r") as f:
+    file_temp = f.readlines()
+    for num, line in enumerate(file_temp):
+        if "current_player" in line.strip():
+            current_player = line.split("=")[1].strip()
+        if "priority_list" in line.strip():
+            priority = line.split("=")[1].strip().split(",")
+        if "current_priority" in line:
+            current_priority = (line.split("=")[1].strip()).split(",")
+    f.close()
+
+
+if current_player not in current_players:
+    with open("/tmp/current_player", "r") as f:
+        file_temp = f.readlines()
+        for num, line in enumerate(file_temp):
+            if "current_player" in line.strip():
+                file_temp[num] = f"current_player={current_players[0]}\n"
+                break
+        f.close()
+
+    with open("/tmp/current_player", "w") as f:
+        f.writelines(file_temp)
+        f.close()
+
+# If play/pause/next/previous is selected
+if args["play_pause"]:
+    subprocess.run(["playerctl", "play-pause", "-p", f"{current_player}"])
+    print(current_player)
+elif args["next"]:
+    subprocess.run(["playerctl", "next", "-p", f"{current_player}"])
+elif args["previous"]:
+    subprocess.run(["playerctl", "previous", "-p", f"{current_player}"])
+
+# If switching to the next player is selected
+if args["next_player"]:
+    # Run through the list of players
+    for index, player in enumerate(current_players):
+        # If the current player is found, set the current player to the next player
+        try:
+            if current_player == player:
+                current_player = current_players[index + 1]
+                break
+
+        # If the next player is not found, set the current player to the first player
+        except IndexError:
+            current_player = current_players[0]
+
+    # Check the current_player file for the current player
+    with open("/tmp/current_player", "r") as f:
+        file_temp = f.readlines()
+        for num, line in enumerate(file_temp):
+            # If the current player is found, set the current player to the next player in the list
+            if "current_player=" in line.strip():
+                file_temp[num] = f"current_player={current_player}\n"
+                break
+        f.close()
+
+    # Write the new current player to the file
+    with open("/tmp/current_player", "w") as f:
+        f.writelines(file_temp)
+        f.close()
+
+# If switching to the previous player is selected
+if args["previous_player"]:
+    # Run through the list of players
+    for index, player in enumerate(current_players):
+        # If the current player is found, set the current player to the previous player
+        if current_player == player:
+            current_player = current_players[index - 1]
+            break
+
+    # Check the current_player file for the current player
+    with open("/tmp/current_player", "r") as f:
+        file_temp = f.readlines()
+        for num, line in enumerate(file_temp):
+            # If the current player is found, set the current player to the previous player in the list
+            if "current_player=" in line.strip():
+                file_temp[num] = f"current_player={current_player}\n"
+                break
+        f.close()
+
+    # Write the new current player to the file
+    with open("/tmp/current_player", "w") as f:
+        f.writelines(file_temp)
+        f.close()
+
+current_priority = []
+
+# Sets the current priority
+for player in current_players:
+    if player in priority:
+        current_priority.append(player)
+for player in current_players:
+    if player not in priority:
+        current_priority.append(player)
+
+# Updates the current priority
+try:
+    with open("/tmp/current_player", "r") as file:
+        file_temp = file.readlines()
+        for num, line in enumerate(file_temp):
+            if "current_priority" in line:
+                file_temp[num] = (
+                    f"current_priority={str(current_priority).strip('[]').replace("'", '')}\n"
+                )
+    with open("/tmp/current_player", "w") as file:
+        file.writelines(file_temp)
+    file.close()
+
+# If the file does not exist
+except FileNotFoundError:
+    with open("/tmp/current_player", "w") as file:
+        file.write(
+            "#Current player displayed in waybar\ncurrent_player=spotify\n#Priority of players\npriority_list=spotify,vlc\n#Current priority of players\ncurrent_priority=spotify,vlc\n"
+        )
+        file.close()

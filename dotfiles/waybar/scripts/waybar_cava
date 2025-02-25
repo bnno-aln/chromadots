@@ -1,0 +1,10 @@
+[general]
+bars = 24  # Número de barras de saída
+framerate = 20
+autosens = 1
+
+[output]
+method = raw
+channels = mono
+data_format = ascii
+ascii_max_range = 9

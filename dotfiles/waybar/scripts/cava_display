@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import subprocess
+
+cava_config_temp = "/home/bnno/.config/waybar/scripts/waybar_cava"
+
+
+def run_command_live(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, text=True)
+
+    try:
+        for line in process.stdout:
+            print(f"{line.strip().replace(';', '')}", flush=True)
+
+            # if subprocess.check_output(["playerctl", "status", "-p", "spotify"]):
+    except KeyboardInterrupt:
+        print("\nEncerrando...")
+        process.terminate()  # Finaliza o processo ao pressionar Ctrl+C
+
+
+# Exemplo com o comando 'cava' (ou outro comando que gera saída contínua)
+run_command_live(["cava", "-p", f"{cava_config_temp}"])

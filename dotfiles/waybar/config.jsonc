@@ -2,7 +2,7 @@
 {
     //"layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
-    // "height": 38, // Waybar height (to be removed for auto height)
+    "height": 38, // Waybar height (to be removed for auto height)
     "width": "auto", // Waybar width
     "margin-top": -2,
     "margin-bottom": -10,
@@ -12,26 +12,23 @@
 
     // Choose the order of the modules
     "modules-left": [
-        // "group/theme",
-        // "custom/notification",
-        "group/theme_notification",
-        "group/workspaces_group",
-        "group/media_tray"
+        "group/left_1",
+        "group/left_2",
+        "group/left_3"
     ],
     
     "modules-center": [
-        "hyprland/window",
-        "custom/wifi"
+        "group/center_1"
     ],
     
     "modules-right": [
-        "custom/updates",
-        "group/icon_tray",
-        "group/info_tray"
-        // "custom/power"
+        "group/right_1",
+        "group/right_2",
+        "group/right_3"
     ],
-
-    "group/theme_notification": {
+    
+    // Modules configuration
+    "group/left_1": {
         "orientation": "horizontal",
         "modules": [
             "custom/notification",
@@ -39,8 +36,7 @@
         ]
     },
 
-    // Modules configuration
-    "group/workspaces_group": {
+    "group/left_2": {
         "orientation": "horizontal",
         "drawer": {
             "transition-duration": 200,
@@ -52,8 +48,50 @@
             "hyprland/workspaces#all"
         ]
     },
+    
+    "group/left_3": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 200,
+            "transition-left-to-right": true,
+            "click-to-reveal": false
+        },
+        "modules": [
+            "group/left_3-1",
+            "custom/player_info"
+        ]
+    },
 
-    "group/info_tray": {
+    "group/left_3-1": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/player_status",
+            "custom/cava"
+        ]
+    },
+
+    "group/center_1": {
+        "orientation": "horizontal",
+        "modules": [
+            "hyprland/window"
+        ]
+    },
+
+    "group/right_1": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/updates"
+        ]
+    },
+
+    "group/right_2": {
+        "orientation": "horizontal",
+        "modules": [
+            "tray"
+        ]
+    },
+
+    "group/right_3": {
         "orientation": "horizontal",
         "modules": [
             "network",
@@ -64,12 +102,6 @@
         ]
     },
 
-    "group/icon_tray": {
-        "orientation": "horizontal",
-        "modules": [
-            "tray"
-        ]
-    },
 
     "group/theme": {
         "orientation": "horizontal",
@@ -82,21 +114,6 @@
             "custom/theme_universal",
             "custom/theme_waybar",
             "custom/theme_pywal"
-        ]
-    },
-
-    "group/media_tray": {
-        "orientation": "horizontal",
-        "drawer": {
-            "transition-duration": 200,
-            "transition-left-to-right": true,
-            "click-to-reveal": false
-        },
-        "modules": [
-            "custom/player_status",
-            "custom/spotify_player"
-            // "custom/mediaplayer",
-            // "image"
         ]
     },
 
@@ -113,24 +130,6 @@
         ]
     },
 
-    "image": {
-        "path": "/tmp/waybar-mediaplayer-art",
-        "size": 24,
-        "signal": 4,
-        "on-click": "feh --auto-zoom --borderless --title 'feh-float' /tmp/waybar-mediaplayer-art"
-    },
-
-    "custom/mediaplayer": {
-        "exec": "$HOME/.config/waybar/scripts/waybar-mediaplayer/mediaplayer monitor",
-        "return-type": "json",
-        "format": "{}",
-        "on-click": "playerctl -p spotify play-pause",
-        "on-click-right": "playerctl -p spotify next",
-        "on-click-middle": "playerctl -p spotify previous",
-        "min-length": 20,
-        "max-length": 30
-    },
-
     "pulseaudio/slider": {
         "min": 0,
         "max": 100,
@@ -140,9 +139,9 @@
     "hyprland/window": {
 	    "icon": false,
 	    "icon-size": 12,
-	    "max-length": 60,
+	    "max-length": 40,
     	"separate-outputs": true,
-        "on-click": "notify-send \"Window Title\" \"$(hyprctl activewindow -j | jq -r .title)\""
+        "tooltip": true
     },
 
     "hyprland/workspaces": {
@@ -186,7 +185,7 @@
     },
 
     "hyprland/workspaces#all": {
-	    "format": "{icon}",
+	    "format": "", // For icons change "" to "{icon}"
 	    "format-icons": {
             "1": "I",
 	        "2": "II",
@@ -247,15 +246,6 @@
         "signal": 8,
         "on-click": "kitty -- zsh -c 'cat ~/.cache/wal/sequences;yay'"
     },
-
-    // "idle_inhibitor": {
-    //     "format": "{icon}",
-    //     "format-icons": {
-    //         "activated": "",
-    //         "deactivated": ""
-    //     },
-    //     "tooltip": false
-    // },
 
     "tray": {
         "icon-size": 14,
@@ -339,24 +329,25 @@
         "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tp"
     },
 
-    "custom/spotify_player": {
-        "exec": "$HOME/.config/waybar/scripts/spotify_player",
-        "interval": 1,
+    "custom/player_info": {
+        "exec": "$HOME/.config/waybar/scripts/player_info",
         "return-type": "json",
         "format": "{}",
-        "on-click": "playerctl -p spotify play-pause",
-        "on-click-right": "playerctl -p spotify next",
-        "on-click-middle": "playerctl -p spotify previous"
+        "on-click": "$HOME/.config/waybar/scripts/current_player --play-pause",
+        "on-click-right": "$HOME/.config/waybar/scripts/current_player --next",
+        "on-click-middle": "$HOME/.config/waybar/scripts/current_player --previous"
     },
 
     "custom/player_status": {
         "exec": "$HOME/.config/waybar/scripts/player_status",
-        "interval": 1,
         "return-type": "json",
         "format": "{}",
-        "on-click": "playerctl -p spotify play-pause",
-        "on-click-right": "playerctl -p spotify next",
-        "on-click-middle": "playerctl -p spotify previous"
+        "interval": 1,
+        "on-scroll-up": "$HOME/.config/waybar/scripts/current_player --next-player",
+        "on-scroll-down": "$HOME/.config/waybar/scripts/current_player --previous-player",
+        "on-click": "$HOME/.config/waybar/scripts/current_player --play-pause",
+        "on-click-right": "$HOME/.config/waybar/scripts/current_player --next",
+        "on-click-middle": "$HOME/.config/waybar/scripts/current_player --previous"
     },
 
     "custom/weather": {
@@ -365,5 +356,10 @@
         "return-type": "json",
         "format": "{}",
         "tooltip": true
+    },
+
+    "custom/cava": {
+        "exec": "$HOME/.config/waybar/scripts/cava_display",
+        "tooltip": false
     }
 }

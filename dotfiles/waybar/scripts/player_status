@@ -1,11 +1,36 @@
 #!/usr/bin/env python3
 
-import os
+import subprocess
 
-status = os.popen("playerctl status -p spotify").read().strip()
-player = (
-    os.popen("playerctl metadata --format '{{ playerName }}' -p spotify").read().strip()
-).capitalize()
+# Get media and player info
+try:
+    with open("/tmp/current_player", "r") as f:
+        file_temp = f.readlines()
+        for num, line in enumerate(file_temp):
+            if "current_player" in line.strip():
+                current_player = line.split("=")[1].strip()
+            if "priority_list" in line.strip():
+                priority = line.split("=")[1].strip().split(",")
+            if "current_priority" in line:
+                current_priority = (line.split("=")[1].strip()).split(",")
+        f.close()
+
+# If the file does not exist
+except FileNotFoundError:
+    with open("/tmp/current_player", "w") as f:
+        f.write(
+            "#Current player displayed in waybar\ncurrent_player=spotify\n#Priority of players\npriority_list=spotify,vlc\n#Current priority of players\ncurrent_priority=spotify,vlc\n"
+        )
+        f.close()
+
+players = current_priority
+
+if current_player not in players:
+    current_player = players[0]
+
+status = subprocess.run(
+    ["playerctl", "status", "-p", f"{current_player}"], capture_output=True, text=True
+).stdout.strip()
 
 if status == "Playing":
     status = ""
@@ -15,24 +40,6 @@ elif status == "Stopped":
     status = ""
 
 print(
-    f'{{"text": "{status}", "tooltip": "Player: {player}\\nLeft click: Play/Pause\\nRight click: Next\\nMiddle click: Previous"}}'
+    f'{{"text": "{status}", "tooltip": "Player\t\t{current_player.title()}\\nLeft click\tPlay/Pause\\nRight click\tNext\\nMiddle click\tPrevious\\nScroll Up\tNext player\\nScroll Down\tPrevious player"}}',
+    flush=True,
 )
-
-# os.system(f'echo \'{{"text": "{title} - {artist}", "tooltip": "{title} - {artist}"}}\'')
-
-
-# Parse command-line arguments
-# parser = argparse.ArgumentParser(
-#     description="Change colors for hyprland, rofi, waybar (using Pylette) and clipse, terminal, discord and firefox (using Pywal)",
-#     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-# )
-# parser.add_argument(
-#     "-t",
-#     "--toggle",
-#     action="store_true",
-#     required=False,
-#     help="Toggle the theme between light and dark. Use alongside -p, -w or -u",
-# )
-
-# args = parser.parse_args()
-# args = vars(args)
