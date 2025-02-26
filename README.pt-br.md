@@ -28,13 +28,13 @@ Esse projeto surgiu como um simples script para trocar as cores do waybar, mas c
 
 #### Paleta exemplo 1
 
-![](Assets/Palette1_dark.png)
-![](Assets/Palette1_light.png)
+![Palette 1 - Dark theme](Assets/Palette1_dark.png)
+![Palette 1 - Light Theme](Assets/Palette1_light.png)
 
 #### Paleta exemplo 2
 
-![](Assets/Palette2_dark.png)
-![](Assets/Palette2_light.png)
+![Palette 2 - Dark theme](Assets/Palette2_dark.png)
+![Palette 2 - Light theme](Assets/Palette2_light.png)
 
 ### Método de instalação
 
@@ -60,3 +60,14 @@ Esse projeto surgiu como um simples script para trocar as cores do waybar, mas c
     3. Clique em code e baixe o repositório como arquivo ZIP
     4. Use o script (WIP)
 7. Extraia/Mova o conteúdo para sua .config
+
+### Extras
+
+Chromadots adiciona suporte opcional para firefox, discord e spotify/spicetify que requerem instalação e configuração separada.
+
+Para o Firefox use o pywalfox AUR e a extensão de navegador, para instalação, veja o guia em [pywalfox github](https://github.com/Frewacom/pywalfox).
+
+Para o Discord siga a instalação em [pywal-discord](https://github.com/franekxtb/pywal-discord).
+
+Para o spotify é mais complicado, o dotfiles usa o tema text do [github spicetify themes](https://github.com/spicetify/spicetify-themes) pelo simples motivo de não ter esquema de cores alternativas e ser um tema css sem javascript atrelado, é possivel que funcione em outros temas mas eu não testei.
+Siga a instalação do [spicetify](https://spicetify.app/docs/advanced-usage/installation/), baixe o tema text em [spicetify themes gihub](https://github.com/spicetify/spicetify-themes) e aplique no seu spotify.

@@ -1,0 +1,71 @@
+#! /usr/bin/python
+
+import os
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Change colors for hyprland, rofi, waybar (using Pylette) and clipse, terminal, discord and firefox (using Pywal)",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+parser.add_argument(
+    "-t",
+    "--toggle",
+    action="store_true",
+    required=False,
+    help="Toggle the theme between light and dark. Use alongside -p, -w or -u",
+)
+parser.add_argument(
+    "-p",
+    "--pywal",
+    action="store_true",
+    required=False,
+    help="Export the state for the pywal icon",
+)
+parser.add_argument(
+    "-w",
+    "--waybar",
+    action="store_true",
+    required=False,
+    help="Export the state for the waybar icon",
+)
+parser.add_argument(
+    "-u",
+    "--universal",
+    action="store_true",
+    required=False,
+    help="Export the state for the universal mode icon",
+)
+
+args = parser.parse_args()
+
+args = vars(args)
+
+if args["toggle"]:
+    if args["pywal"]:
+        argument = "--toggle --pywal"
+    elif args["waybar"]:
+        argument = "--toggle --waybar"
+    elif args["universal"]:
+        argument = "--toggle --universal"
+else:
+    if args["pywal"]:
+        argument = "--pywal"
+    elif args["waybar"]:
+        argument = "--waybar"
+    elif args["universal"]:
+        argument = "--universal"
+
+print(f"Argument used: {argument}")
+os.system(f"~/.config/waybar/scripts/paletteSwitch {argument}")
+
+
+pywal_theme = ""
+with open("/home/bnno/.config/waybar/theme", "r") as file:
+    theme_state = file.readlines()
+    for num, line in enumerate(theme_state, 0):
+        if "pywal" in line:
+            pywal_theme = line.split("=")[1].strip().lower()
+            break
+    file.close()
+
+os.system(f"~/.config/waybar/scripts/post_pywal --{pywal_theme}")

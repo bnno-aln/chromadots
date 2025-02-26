@@ -4,6 +4,8 @@ from Pylette import extract_colors
 from configparser import ConfigParser
 import argparse
 import os
+import subprocess
+from time import sleep
 import re
 
 
@@ -368,22 +370,16 @@ def modify_clipse_theme(theme_path, new_colors):
         file.close()
 
 
-def update_pywal_dependent(mode):
-    if mode.lower() == "light":
-        os.system("pywalfox update && pywalfox light")
-    else:
-        os.system("pywalfox update && pywalfox dark")
-    discord_template = "default"
-    os.system(f"pywal-discord -t {discord_template}")
-
-
 def modify_wlogout_theme(theme_path, state):
+    # Read the theme file
     with open(theme_path, "r") as file:
         config = file.readlines()
 
+    # Replace the current state with the new state
     for num, line in enumerate(config, 0):
         config[num] = re.sub(r"_(\w*).png", f"_{state}.png", line)
 
+    # Write the updated theme file
     with open(theme_path, "w") as file:
         file.writelines(config)
         file.close()
@@ -407,6 +403,7 @@ def change_themes():
         None
     """
 
+    os.system("notify-send 'Palette Switch' 'Changing themes...'")
     theme_state = dict()
     temp = list()
     with open(theme_mode_path, "r") as file:
@@ -418,11 +415,16 @@ def change_themes():
         ]
         theme_state.update(dict(temp))
 
+    # If the user wants to toggle the theme
     if args["toggle"]:
+        # If selected the waybar theme
         if args["waybar"]:
+            # If the current theme is light
             if theme_state["waybar"] == "light":
-                os.system(
-                    'sed -i "s/^waybar=light.*/waybar=dark/" $HOME/.config/waybar/theme'
+                # Switch to dark
+                subprocess.run(
+                    [f"sed -i 's/^waybar=light.*/waybar=dark/' {theme_mode_path}"],
+                    shell=True,
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
@@ -432,14 +434,19 @@ def change_themes():
                     palette(theme="dark").rgb,
                 )
                 modify_wlogout_theme(wlogout_theme_path, "white")
-                os.system("swaync-client --reload-css")
-                os.system(
-                    'notify-send "Waybar theme switched" "Theme changed to Dark Mode"'
+                subprocess.run(["swaync-client --reload-css"], shell=True)
+                subprocess.run(
+                    [
+                        "notify-send 'Waybar theme switched' 'Theme changed to Dark Mode'"
+                    ],
+                    shell=True,
                 )
-
+            # If the current theme is dark
             elif theme_state["waybar"] == "dark":
-                os.system(
-                    'sed -i "s/^waybar=dark.*/waybar=light/" $HOME/.config/waybar/theme'
+                # Switch to light
+                subprocess.run(
+                    [f"sed -i 's/^waybar=dark.*/waybar=light/' {theme_mode_path}"],
+                    shell=True,
                 )
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
@@ -449,33 +456,35 @@ def change_themes():
                     palette(theme="light").rgb,
                 )
                 modify_wlogout_theme(wlogout_theme_path, "black")
-                os.system("swaync-client --reload-css")
-                os.system(
-                    'notify-send "Waybar theme switched" "Theme changed to Light Mode"'
+                subprocess.run(["swaync-client --reload-css"], shell=True)
+                subprocess.run(
+                    [
+                        "notify-send 'Waybar theme switched' 'Theme changed to Light Mode'",
+                    ],
+                    shell=True,
                 )
 
+        # If selected the universal theme
         if args["universal"]:
+            # If the current theme is light
             if theme_state["universal"] == "light":
-                os.system(
-                    'sed -i "s/^waybar=light.*/waybar=dark/" $HOME/.config/waybar/theme'
+                # Switch to dark
+                subprocess.run(
+                    [f"sed -i 's/^waybar=light.*/waybar=dark/' {theme_mode_path}"],
+                    shell=True,
                 )
-                os.system(
-                    'sed -i "s/^pywal=light.*/pywal=dark/" $HOME/.config/waybar/theme'
+                subprocess.run(
+                    [f"sed -i 's/^pywal=light.*/pywal=dark/' {theme_mode_path}"],
+                    shell=True,
                 )
-                os.system(
-                    'sed -i "s/^universal=light.*/universal=dark/" $HOME/.config/waybar/theme'
-                )
-                # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
+                subprocess.run(
+                    [
+                        f"sed -i 's/^universal=light.*/universal=dark/' {theme_mode_path}"
+                    ],
+                    shell=True,
                 )
 
-                # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
-                    )
+                # Modify Pylette dependent themes
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
                 modify_hyprland_theme(
                     hyprland_colors_path,
@@ -485,33 +494,58 @@ def change_themes():
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
                 modify_wlogout_theme(wlogout_theme_path, "white")
-                os.system("swaync-client --reload-css")
-                os.system(
-                    'notify-send "Universal theme switched" "Theme changed to Dark Mode"'
-                )
-                update_pywal_dependent("Dark")
+                subprocess.run(["swaync-client --reload-css"], shell=True)
 
-            elif theme_state["universal"] == "dark":
-                os.system(
-                    'sed -i "s/^waybar=dark.*/waybar=light/" $HOME/.config/waybar/theme'
-                )
-                os.system(
-                    'sed -i "s/^pywal=dark.*/pywal=light/" $HOME/.config/waybar/theme'
-                )
-                os.system(
-                    'sed -i "s/^universal=dark.*/universal=light/" $HOME/.config/waybar/theme'
-                )
                 # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -l -i '{get_wallpaper(waypaper_config_path)}'"
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        check=True,
+                        shell=True,
+                    )
+                # If Haishoku fails, try Colorthief
+                except subprocess.CalledProcessError:
+                    # Wait for wal to finish
+                    sleep(1)
+                    subprocess.run(
+                        ["notify-send Haishoku Error Trying Colorthief"], shell=True
+                    )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        shell=True,
+                    )
+
+                # Notify the user
+                subprocess.run(
+                    [
+                        "notify-send 'Universal theme switched' 'Theme changed to Light Mode'",
+                    ],
+                    shell=True,
                 )
 
-                # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -l -i '{get_wallpaper(waypaper_config_path)}'"
-                    )
+            # If the current theme is dark
+            elif theme_state["universal"] == "dark":
+                # Switch to light
+                subprocess.run(
+                    [f"sed -i 's/^waybar=dark.*/waybar=light/' {theme_mode_path}"],
+                    shell=True,
+                )
+                subprocess.run(
+                    [f"sed -i 's/^pywal=dark.*/pywal=light/' {theme_mode_path}"],
+                    shell=True,
+                )
+                subprocess.run(
+                    [
+                        f"sed -i 's/^universal=dark.*/universal=light/' {theme_mode_path}"
+                    ],
+                    shell=True,
+                )
+
+                # Modify Pylette dependent themes
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
                 modify_hyprland_theme(
                     hyprland_colors_path,
@@ -521,58 +555,133 @@ def change_themes():
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
                 modify_wlogout_theme(wlogout_theme_path, "black")
-                os.system("swaync-client --reload-css")
-                os.system(
-                    'notify-send "Universal theme switched" "Theme changed to Light Mode"'
-                )
-                update_pywal_dependent("Light")
+                subprocess.run(["swaync-client --reload-css"], shell=True)
 
+                # Try Haishoku
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        check=True,
+                        shell=True,
+                    )
+                # If Haishoku fails, try Colorthief
+                except subprocess.CalledProcessError:
+                    # Wait for wal to finish
+                    subprocess.run(
+                        ["notify-send 'Haishoku Error' 'Trying Colorthief'"], shell=True
+                    )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        shell=True,
+                    )
+
+                # Notify the user
+                subprocess.run(
+                    [
+                        "notify-send 'Universal theme switched' 'Theme changed to Light Mode'",
+                    ],
+                    shell=True,
+                )
+
+        # If selected the pywal theme
         if args["pywal"]:
+            # If the current theme is light
             if theme_state["pywal"] == "light":
-                os.system(
-                    'sed -i "s/^pywal=light.*/pywal=dark/" $HOME/.config/waybar/theme'
+                # Switch to dark
+                subprocess.run(
+                    [f"sed -i 's/^pywal=light.*/pywal=dark/' {theme_mode_path}"],
+                    shell=True,
                 )
                 # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
-                )
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        shell=True,
+                        check=True,
+                    )
 
                 # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
+                except subprocess.CalledProcessError:
+                    # Wait for wal to finish
+
+                    subprocess.run(
+                        ["notify-send 'Haishoku Error' 'Trying Colorthief'"],
+                        shell=True,
                     )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        shell=True,
+                    )
+
+                # Modify themes
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
-                os.system(
-                    'notify-send "Pywal theme switched" "Theme changed to Dark Mode"'
-                )
-                update_pywal_dependent("Dark")
 
+                # Notify the user
+                subprocess.run(
+                    [
+                        "notify-send 'Pywal theme switched' 'Theme changed to Light Mode'",
+                    ],
+                    shell=True,
+                )
+
+            # If the current theme is dark
             elif theme_state["pywal"] == "dark":
-                os.system(
-                    'sed -i "s/^pywal=dark.*/pywal=light/" $HOME/.config/waybar/theme'
+                # Switch to light
+                subprocess.run(
+                    [f"sed -i 's/^pywal=dark.*/pywal=light/' {theme_mode_path}"],
+                    shell=True,
                 )
+
                 # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -l -i '{get_wallpaper(waypaper_config_path)}'"
-                )
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        shell=True,
+                        check=True,
+                    )
 
                 # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -l -i '{get_wallpaper(waypaper_config_path)}'"
-                    )
-                modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
-                os.system(
-                    'notify-send "Pywal theme switched" "Theme changed to Light Mode"'
-                )
-                update_pywal_dependent("Light")
+                except subprocess.CalledProcessError:
+                    # Wait for wal to finish
 
+                    subprocess.run(
+                        ["notify-send 'Haishoku Error' 'Trying Colorthief'"], shell=True
+                    )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        shell=True,
+                    )
+
+                # Modify themes
+                modify_clipse_theme(clipse_theme_path, palette(theme="light").hex)
+
+                # Notify the user
+                subprocess.run(
+                    [
+                        "notify-send 'Pywal theme switched' 'Theme changed to Light Mode'",
+                    ],
+                    shell=True,
+                )
+
+    # If not toggling
     elif not args["toggle"]:
+        # If selected the universal theme
         if args["universal"]:
+            # If waybar is light
             if theme_state["waybar"] == "light":
+                # Modify themes
                 modify_waybar_theme(waybar_theme_path, palette(theme="light").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="light").rgb)
                 modify_hyprland_theme(
@@ -580,9 +689,11 @@ def change_themes():
                     palette(theme="light").hex,
                     palette(theme="light").rgb,
                 )
-                os.system("swaync-client --reload-css")
+                subprocess.run(["swaync-client --reload-css"], shell=True)
 
+            # If waybar is dark
             elif theme_state["waybar"] == "dark":
+                # Modify themes
                 modify_waybar_theme(waybar_theme_path, palette(theme="dark").rgb)
                 modify_rofi_theme(rofi_theme_path, palette(theme="dark").rgb)
                 modify_hyprland_theme(
@@ -590,37 +701,67 @@ def change_themes():
                     palette(theme="dark").hex,
                     palette(theme="dark").rgb,
                 )
-                os.system("swaync-client --reload-css")
+                subprocess.run(["swaync-client --reload-css"], shell=True)
 
+            # If pywal is light
             if theme_state["pywal"] == "light":
+                # Modify themes
                 # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -i -l '{get_wallpaper(waypaper_config_path)}'"
-                )
-
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        shell=True,
+                        check=True,
+                    )
                 # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -i -l '{get_wallpaper(waypaper_config_path)}'"
+                except subprocess.CalledProcessError:
+                    # Wait for wal to finish
+                    sleep(1)
+                    subprocess.run(
+                        ["notify-send 'Haishoku Error' 'Trying Colorthief'"], shell=True
+                    )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)} -l"
+                        ],
+                        shell=True,
                     )
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
-                update_pywal_dependent("Dark")
 
+            # If pywal is dark
             elif theme_state["pywal"] == "dark":
+                # Modify themes
                 # Try Haishoku
-                catch_error = os.system(
-                    f"wal -n --backend haishoku --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
-                )
-
+                try:
+                    subprocess.run(
+                        [
+                            f"wal -n --backend haishoku -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        check=True,
+                        shell=True,
+                    )
                 # If Haishoku fails, try Colorthief
-                if catch_error == 256:
-                    os.system("notify-send 'Haishoku Error' 'Trying Colorthief'")
-                    os.system(
-                        f"wal -n --backend colorthief --cols16 darken -i '{get_wallpaper(waypaper_config_path)}'"
+                except subprocess.CalledProcessError:
+                    subprocess.run(
+                        ["notify-send 'Haishoku Error' 'Trying Colorthief'"], shell=True
+                    )
+                    subprocess.run(
+                        [
+                            f"wal -n --backend colorthief -e -i {get_wallpaper(waypaper_config_path)}"
+                        ],
+                        shell=True,
                     )
                 modify_clipse_theme(clipse_theme_path, palette(theme="dark").hex)
-                update_pywal_dependent("Dark")
+
+            # Notify the user
+            subprocess.run(
+                [
+                    "notify-send 'Universal theme switched' 'Theme changed to Dark Mode'",
+                ],
+                shell=True,
+            )
 
 
 def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
@@ -638,80 +779,21 @@ def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
         wallpaper (str): The path to the wallpaper image to be resized.
     """
 
+    print("Updating Hyprlock wallpaper...\n")
+    # Check if the wallpaper is a GIF
     if ".gif" in wallpaper:
+        # Resize the first frame to 1920x1080 and save it as current.png
         os.system(
-            f"convert '{wallpaper}[0]' -resize 1920x1080 ~/.config/hypr/temp/current.png"
+            "convert "
+            + wallpaper
+            + "[0] -resize 1920x1080 ~/.config/hypr/temp/current.png"
         )
+
+    # If it's not a GIF, use magick to resize the image and save it as current.png
     else:
         os.system(
-            f"magick '{wallpaper}' -resize 1920x1080 ~/.config/hypr/temp/current.png"
+            "magick " + wallpaper + " -resize 1920x1080 ~/.config/hypr/temp/current.png"
         )
-
-
-def modify_spicetify():
-    """
-    Modifies the Spicetify theme colors based on the current Pywal colors.
-
-    This function reads the current Pywal colors from the cache and updates the
-    Spicetify theme's color configuration to match the new colors. It maps the old
-    color names to their respective indices in the Pywal color list and replaces
-    them in the Spicetify configuration file. The function then saves the updated
-    configuration and restarts Spicetify to apply the changes.
-
-    Args:
-        None
-
-    Returns:
-        None
-    """
-
-    if args["waybar"] is False:
-        with open(user_home + "/.cache/wal/colors", "r") as file:
-            config = file.readlines()
-            file.close()
-
-        new_colors = list()
-        for num, line in enumerate(config, 0):
-            new_colors.append(line.strip().replace("#", ""))
-
-        with open(user_home + "/.config/spicetify/Themes/text/color.ini", "r") as file:
-            config = file.readlines()
-            file.close()
-
-        old_colors = {
-            "accent": "6",
-            "accent-active": "9",
-            "accent-inactive": "5",
-            "banner": "8",
-            "border-active": "10",
-            "border-inactive": "7",
-            "header": "14",
-            "highlight": "13",
-            "main": "0",
-            "notification": "none",
-            "notification-error": "none",
-            "subtext": "14",
-            "text": "14",
-        }
-
-        for num, line in enumerate(config):
-            for name, value in old_colors.items():
-                if line.startswith(name) and ";" not in line:
-                    try:
-                        config[num] = re.sub(
-                            r"(\w*|\w*-\w*)\s*=\s*(\w*)",
-                            f"{name} = {new_colors[int(value)]}",
-                            line,
-                        )
-                    except ValueError:
-                        continue
-
-        with open(user_home + "/.config/spicetify/Themes/text/color.ini", "w") as file:
-            file.writelines(config)
-            file.close()
-
-        os.system("spicetify watch -s &")
-        os.system("sleep 4 && pkill spicetify")
 
 
 def export_colors_hyprland():
@@ -722,6 +804,7 @@ def export_colors_hyprland():
     configuration files for Hyprland, one for the light theme and one for the dark
     theme.
     """
+    print("Exporting colors for Hyprland programs...\n")
     modify_hyprland_theme(
         user_home + "/.config/hypr/colors_light.conf",
         palette(theme="light").hex,
@@ -734,29 +817,15 @@ def export_colors_hyprland():
     )
 
 
-def update_cava_pywal():
-    try:
-        # Verifies if cava template exists
-        with open(user_home + "/.cache/wal/cava.conf", "r") as file:
-            # Sets colors from pywal to cava dynamically
-            os.system("cp ~/.cache/wal/cava.conf ~/.config/cava/config")
-            file.close()
-
-        # Reloads cava's colorscheme configuration
-        os.system("pkill -USR2 cava")
-    # If cava template doesn't exist
-    except FileNotFoundError:
-        print("Cava template for pywal not found. Skipping...\n")
-
-
 # ------------------- Main Program ------------------ #
 
+print("Palette Switch script started\n")
 
 change_themes()
+
+print("Main color switch finished\n")
+
 export_colors_hyprland()
 update_hyprlock_wallpaper(hyprlock_path, get_wallpaper(waypaper_config_path))
-update_cava_pywal()
 
-if "spotify" in os.popen("playerctl -l").read():
-    print("Spotify is running")
-    modify_spicetify()
+os.system("notify-send 'Palette Switch' 'Palette switched successfully!'")

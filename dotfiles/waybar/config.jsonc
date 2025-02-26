@@ -308,7 +308,7 @@
         "return-type": "json",
         "format": "{icon}",
         "format-icons": {"Dark mode": "", "Light mode": ""},
-        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tu"
+        "on-click": "$HOME/.config/waybar/scripts/paletteStarter -tu"
     },
 
     "custom/theme_waybar": {
@@ -317,7 +317,7 @@
         "return-type": "json",
         "format": "{0}", // For custom icons change {0} to {icon} and uncomment format-icons
         // "format-icons": {"Waybar light": "", "Waybar dark": ""},
-        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tw"
+        "on-click": "$HOME/.config/waybar/scripts/paletteStarter -tw"
     },
 
     "custom/theme_pywal": {
@@ -326,7 +326,7 @@
         "return-type": "json",
         "format": "{0}", // For custom icons change {0} to {icon} and uncomment format-icons
         // "format-icons": {"Dark mode": "", "Light mode": ""},
-        "on-click": "$HOME/.config/waybar/scripts/paletteSwitch -tp"
+        "on-click": "$HOME/.config/waybar/scripts/paletteStarter -tp"
     },
 
     "custom/player_info": {
