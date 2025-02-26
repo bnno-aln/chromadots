@@ -3,6 +3,8 @@
 import os
 import argparse
 
+user_path = os.path.expanduser("~")
+
 parser = argparse.ArgumentParser(
     description="Change colors for hyprland, rofi, waybar (using Pylette) and clipse, terminal, discord and firefox (using Pywal)",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -60,7 +62,7 @@ os.system(f"~/.config/waybar/scripts/paletteSwitch {argument}")
 
 
 pywal_theme = ""
-with open("/home/bnno/.config/waybar/theme", "r") as file:
+with open(user_path + "/.config/waybar/theme", "r") as file:
     theme_state = file.readlines()
     for num, line in enumerate(theme_state, 0):
         if "pywal" in line:
