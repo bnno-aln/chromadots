@@ -248,7 +248,6 @@ def modify_hyprland_theme(hyprland_colors_path, colors_hex, colors_rgb):
                     )
                 else:
                     config[num] = f"{key} = rgb({new_colors_hex[key]})\n"
-                # print(key, value[0], value[1])
 
     # Updates the color.conf with the new colors
     with open(hyprland_colors_path, "w") as file:
@@ -779,7 +778,8 @@ def update_hyprlock_wallpaper(hyprlock_path, wallpaper):
         wallpaper (str): The path to the wallpaper image to be resized.
     """
 
-    print("Updating Hyprlock wallpaper...\n")
+    print("Updating Hyprlock wallpaper...".center(50, "="))
+    print()
     # Check if the wallpaper is a GIF
     if ".gif" in wallpaper:
         # Resize the first frame to 1920x1080 and save it as current.png
@@ -804,7 +804,8 @@ def export_colors_hyprland():
     configuration files for Hyprland, one for the light theme and one for the dark
     theme.
     """
-    print("Exporting colors for Hyprland programs...\n")
+    print("Exporting colors for Hyprland programs...".center(50, "="))
+    print()
     modify_hyprland_theme(
         user_home + "/.config/hypr/colors_light.conf",
         palette(theme="light").hex,
@@ -819,13 +820,28 @@ def export_colors_hyprland():
 
 # ------------------- Main Program ------------------ #
 
-print("Palette Switch script started\n")
+print("| Palette Switch script started |".center(50, "="))
+print()
 
 change_themes()
 
-print("Main color switch finished\n")
+print("| Main color switch finished |".center(50, "="))
+print()
 
 export_colors_hyprland()
 update_hyprlock_wallpaper(hyprlock_path, get_wallpaper(waypaper_config_path))
+
+
+pywal_theme = ""
+with open(user_home + "/.config/waybar/theme", "r") as file:
+    theme_state = file.readlines()
+    for num, line in enumerate(theme_state, 0):
+        if "pywal" in line:
+            pywal_theme = line.split("=")[1].strip().lower()
+            break
+    file.close()
+
+if not args["waybar"]:
+    os.system(f"~/.config/waybar/scripts/post_pywal --{pywal_theme}")
 
 os.system("notify-send 'Palette Switch' 'Palette switched successfully!'")

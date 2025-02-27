@@ -46,6 +46,7 @@ Esse projeto surgiu como um simples script para trocar as cores do waybar, mas c
    3. Para adicionar as cores da paleta no seu terminal siga o [tutorial do pywal](https://github.com/eylles/pywal16/wiki/Getting-Started#applying-the-theme-to-new-terminals)
 3. Instale uma font nerd para os icones no waybar, a que está configurada é a JetBrain Mono Nerd Font
    1. Para instalar faça download da fonte e coloque em .local/share/fonts ou use `yay -S ttf-jetbrains-mono-nerd`
+   2. As fontes usadas no hyprlock são 'Quantico' e 'KumarOne', ambas encontradas no Google Fonts
 4. Habilite o inicio automatico para hypridle, waypaper, swaync e clipse
    1. Eles são iniciados em .config/hypr/configs/programs.conf mas podem ser iniciados automaticamente com `systemctl enable`/`systemctl start`
 5. Crie um ambiente virtual python para a instalação dos pacotes necessários

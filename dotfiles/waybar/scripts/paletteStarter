@@ -59,15 +59,3 @@ else:
 
 print(f"Argument used: {argument}")
 os.system(f"~/.config/waybar/scripts/paletteSwitch {argument}")
-
-
-pywal_theme = ""
-with open(user_path + "/.config/waybar/theme", "r") as file:
-    theme_state = file.readlines()
-    for num, line in enumerate(theme_state, 0):
-        if "pywal" in line:
-            pywal_theme = line.split("=")[1].strip().lower()
-            break
-    file.close()
-
-os.system(f"~/.config/waybar/scripts/post_pywal --{pywal_theme}")

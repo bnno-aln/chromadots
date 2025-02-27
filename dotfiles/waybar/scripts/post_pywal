@@ -14,10 +14,12 @@ parser.add_argument("--dark", action="store_true")
 args = parser.parse_args()
 args = vars(args)
 
+subprocess.run(["notify-send", "Pywal dependent", "Updating..."])
+print("| Post pywal script started |".center(50, "="))
+
 
 def update_pywal_dependent(mode):
     pass
-    subprocess.run(["notify-send", "Pywalfox", "Updating pywalfox"])
     subprocess.run(["pywalfox", "update"])
     sleep(1)
     if mode.lower() == "dark":
@@ -49,7 +51,7 @@ def modify_spicetify():
     """
 
     # Try to update Spicetify
-    print("Trying to update Spicetify colorscheme...")
+    print("Trying to update Spicetify colorscheme".center(50, "="))
 
     # Read the current Pywal colors
     with open(user_home + "/.cache/wal/colors", "r") as file:
@@ -62,7 +64,7 @@ def modify_spicetify():
     for num, line in enumerate(config, 0):
         new_colors.append(line.strip().replace("#", ""))
 
-    print("Updating 'text' theme colorscheme...")
+    print("Updating 'text' theme colorscheme".center(50, "="))
 
     # Read the Spicetify config for the theme
     try:
@@ -72,7 +74,8 @@ def modify_spicetify():
 
     # If the theme is not found, skip
     except FileNotFoundError:
-        print("Spicetify not found or not configured. Skipping...\n")
+        print("Spicetify not found or not configured. Skipping".center(50, "="))
+        print()
         return
 
     # Map the old color names to their respective indices in the Pywal color list
@@ -113,13 +116,15 @@ def modify_spicetify():
         file.close()
 
     # Restart Spicetify (will close and open spotify due to watch command)
-    print("Restarting Spicetify...")
+    print("Restarting Spicetify".center(50, "="))
+    print()
     os.system("spicetify watch -s &")
     os.system("sleep 4 && pkill spicetify")
 
 
 def update_cava_pywal():
-    print("Trying to update cava colorscheme...")
+    print("Trying to update cava colorscheme".center(50, "="))
+    print()
     try:
         # Verifies if cava template exists
         with open(user_home + "/.cache/wal/cava.conf", "r") as file:
@@ -129,10 +134,12 @@ def update_cava_pywal():
 
         # Reloads cava's colorscheme configuration
         subprocess.run(["pkill", "-USR2", "cava"])
-        print("Cava colorscheme updated\n")
+        print("Cava colorscheme updated".center(50, "="))
+        print()
     # If cava template doesn't exist
     except FileNotFoundError:
-        print("Cava template for pywal not found. Skipping...\n")
+        print("Cava template for pywal not found. Skipping".center(50, "="))
+        print()
 
 
 if args["light"]:
@@ -142,7 +149,8 @@ if args["dark"]:
     update_pywal_dependent("dark")
 
 update_cava_pywal()
-modify_spicetify()
+if "spotify" in os.popen("playerctl -l").read():
+    modify_spicetify()
 
-print("\nPost pywal script finished\n")
+print("| Post pywal script finished |".center(50, "="))
 exit(0)
